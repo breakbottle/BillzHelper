@@ -1,0 +1,15 @@
+{
+  "name": "Billz",
+  "version": "1.0.0",
+  "description": "A web app that you used to manage bills and due dates",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Clint Small Cain",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.12.3",
+    "jade": "^1.9.2"
+  }
+}
