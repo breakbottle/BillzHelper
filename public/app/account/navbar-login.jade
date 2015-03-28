@@ -1,0 +1,16 @@
+//Created by Clint Small Cain on 3/22/2015.
+.navbar-right(ng-controller="bilLoginCtrl")
+    form.navbar-form(ng-hide="identity.isAuthenticated()")
+        .form-group
+            input.form-control(placeholder="Username", ng-model="username")
+        .form-group
+            input.form-control(type="password",placeholder="Password", ng-model="password")
+        button.btn.btn-primary(ng-click="login(this.username,password)") Login
+    ul.nav.navbar-nav.nabar-right(ng-show="identity.isAuthenticated()")
+        li.dropdown
+            a.dropdown-toggle(href="",data-toggle="dropdown")
+                | {{identity.currentUser.Name}}
+                b.caret
+            ul.dropdown-menu
+                li
+                    a(href="",ng-click="logout()") Logout

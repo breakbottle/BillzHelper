@@ -1,0 +1,41 @@
+//Created by Clint Small Cain on 3/22/2015.
+doctype
+html
+    head
+        title  #{page} | #{name}  #{version}
+        link(href="/favicon.ico",rel="shortcut icon", type="image/x-icon")
+        link(rel="stylesheet", href="/vendor/bootstrap/dist/css/bootstrap.css", type="text/css")
+        link(rel="stylesheet", href="/vendor/toastr/toastr.css", type="text/css")
+        link(rel="stylesheet", href="/css/site.css", type="text/css")
+        base(href="/")
+    body(ng-app='app').appcontent
+        include currentUser
+        .navbar.navbar-default.navbar-fixed-top.navbar-main
+            .container-fluid
+                .navbar-header.big-header
+                    a(href="/")
+                        img(src="/img/logo.png")
+                        div.logo-title=name
+                            span.logo-subtitle=version
+                    button.btn.btn-primary.navbar-bt.pull-right.login-btn.visible-xs(type="button") Login
+                    div(ng-include="'/partials/account/navbar-login'").pull-right.hidden-xs
+                    .navbar.navbar-default
+                        .container-fluid
+                            button.navbar-toggle.collapsed.menu-button(type="button",data-toggle="collapse",data-target="#main-menu")
+                                span.sr-only Toggle
+                                span.icon-bar
+                                span.icon-bar
+                                span.icon-bar
+                            .collapse.navbar-collapse(id="main-menu")
+                                ul.nav.navbar-nav
+                                    li
+                                        a(href="",data-toggle="collapse",data-target="#main-menu") Home
+                                    li
+                                        a(href="") Creditors
+                                    li
+                                        a(href="") Create Bill
+        block main-content
+        hr
+        footer.container.text-center &copy; 2015 Breakbottle.com
+
+        include scripts
