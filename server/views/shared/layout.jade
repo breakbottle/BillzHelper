@@ -11,16 +11,16 @@ html
         base(href="/")
     body(ng-app='app').appcontent
         include currentUser
-        .navbar.navbar-default.navbar-fixed-top.navbar-main
+        .navbar.navbar-default.navbar-fixed-top.navbar-main(ng-controller="bilHeadCtrl")
             .container-fluid
                 .navbar-header.big-header
                     a(href="/")
                         img(src="/img/logo.png")
                         div.logo-title=name
                             span.logo-subtitle=version
-                    button.btn.btn-primary.navbar-bt.pull-right.login-btn.visible-xs(type="button") Login
+                    button.btn.btn-primary.navbar-bt.pull-right.login-btn.visible-xs(type="button",ng-hide="identity.isAuthenticated()") Login
                     div(ng-include="'/partials/account/navbar-login'").pull-right.hidden-xs
-                    .navbar.navbar-default.main-menu-bar
+                    .navbar.navbar-default.main-menu-bar(ng-show="identity.isAuthenticated()")
                         .container-fluid
                             button.navbar-toggle.collapsed.menu-button(type="button",data-toggle="collapse",data-target="#main-menu")
                                 span.sr-only Toggle

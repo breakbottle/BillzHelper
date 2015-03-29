@@ -1,9 +1,9 @@
 extends shared/layout
 
 block main-content
-    section.content
+    section.content(ng-controller="bilHomeCtrl")
         div(ng-view)
-        div.hero-text.well
+        div.hero-text.well(ng-hide="identity.isAuthenticated()")
             if model
                 b=model.heroTextTop
                 div=model.heroTextBottom

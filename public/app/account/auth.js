@@ -18,8 +18,9 @@ application.factory('bilAuth',function($http,bilIdentity,$q){
                     deferred.resolve(false);
                     //bilAlerts.notify("you fail")
                }
-                return deferred
+
             });
+            return deferred.promise;
         },
         logoutUser:function(){
             var deferred = $q.defer();
