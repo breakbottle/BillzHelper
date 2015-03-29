@@ -1,5 +1,8 @@
 # BillzHelper
 A tool that helps you keep track of your bills.
+![BillzHelper Logo](https://github.com/breakbottle/BillzHelper/blob/master/public/img/billzhelper.png?raw=true)
+
+
 
 # Tools & Ideas
 I have just started code is horrible, need to add comments and remove my console log.:)
