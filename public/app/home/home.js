@@ -5,6 +5,5 @@
  * Description:
  */
 application.controller('bilHomeCtrl',function($scope,bilIdentity){
-    $scope.myvariable = "Home Header";
     $scope.identity = bilIdentity;
 });

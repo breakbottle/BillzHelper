@@ -55,7 +55,7 @@ passport.deserializeUser(function(id,done){
 });
 
 
-configs.autoLoadControllers.load();
+
 var app = express();
 
 
@@ -117,13 +117,16 @@ app.post('/login',function(req, res,next){
 });
 var extend = require('util')._extend;
 app.get('*',function(req, res,next){//change app.get to app.all to get all request..you can seperate these request by post,post get ect
-    console.log("meeee++++++++++",req.method,"---------------");
+    console.log("meeee++++++++++",req.method,"---------------",req.user);
+    configs.autoLoadControllers.load(req);
     var pageIndex = configs.inController(req._parsedOriginalUrl.pathname);
     if(pageIndex != null){
         var serverGlobals = {
             loggedInUser:req.user,
             version:configs.siteVersion,
-            name:configs.siteName
+            name:configs.siteName,
+            routeName:configs.controllers[pageIndex].name,
+            currentYear: new Date().getFullYear()
         };
         res.render(configs.controllers[pageIndex].name,extend(serverGlobals,configs.controllers[pageIndex].viewModel));
     } else {

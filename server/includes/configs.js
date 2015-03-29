@@ -17,11 +17,14 @@ var autoLoadControllers = function(controller){
 };
 
 var configs = {
-    siteVersion:'v01.23',
+    siteVersion:'v5.1.0',
     siteName:'BillzHelper',
     globals:{
         mysql:mysql,
-        mongodb:mongodb
+        mongodb:mongodb,
+        siteName:function(){
+            return configs.siteName
+        }
     },
     controllers:[
         {
@@ -40,10 +43,15 @@ var configs = {
     autoLoadControllers:
     {
         method:autoLoadControllers,
-        load:function(){
+        load:function(requestObject){
+            console.log("request",requestObject._parsedOriginalUrl.pathname);
             for(var i =0; i < configs.controllers.length;i++){
-               var instance = this.method(configs.controllers[i].name);
-                configs.controllers[i].viewModel = extend(configs.controllers[i].viewModel,instance(configs.globals));
+                //only load request name
+                if(requestObject._parsedOriginalUrl.pathname == configs.controllers[i].route){
+                    var instance = this.method(configs.controllers[i].name);
+                    configs.controllers[i].viewModel = extend(configs.controllers[i].viewModel,instance(configs.globals,requestObject));
+                }
+
             }
         }
     }

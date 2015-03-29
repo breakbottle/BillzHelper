@@ -4,25 +4,20 @@
  * Time: 2:02 PM
  * Description:
  */
+var menuItem = require('../models/menu-item');
 
-module.exports =  function(globals){//arguments
-   /* globals.mysql.query('SELECT 1 + 1 AS solution', function(err, rows, fields) {
-        if (err) throw err;
+module.exports =  function(globals,request){//arguments
 
-        console.log('The solution is: ', rows[0].solution);
-    });*/
-/*
-    var messageSchema = globals.mongodb.mongoose.Schema({message:String});
-    var Message = globals.mongodb.mongoose.model('Message',messageSchema);
-    var mongoMessage;
-    Message.findOne().exec(function(err,messageDoc){
-        mongoMessage = messageDoc.message;
-        console.log("what is ",messageDoc);
-    });*/
-    console.log("i padded the data for this page");
-    var init = function(){
-        console.log("here it is argu",arguments);
-    };
-    return {page:"my page name",
-        model:" data from the index controller"};
+    var returns =  {
+            page:"Welcome to "+globals.siteName(),
+            model:{
+                heroTextTop:"A tool that helps you keep track of your bills.",//this text should be random
+                heroTextBottom:"Reminders to pay your bills on time"//this text should be random
+            },
+            pageMenus: [new menuItem("shante","/clint"),new menuItem("Clint","/clint")]
+        };
+
+
+    return returns;
+
 };

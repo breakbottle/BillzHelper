@@ -1,6 +1,6 @@
 {
-  "name": "Billz",
-  "version": "1.0.0",
+  "name": "BillzHelper",
+  "version": "5.1.0",
   "description": "A web app that you used to manage bills and due dates",
   "main": "index.js",
   "scripts": {

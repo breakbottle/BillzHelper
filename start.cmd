@@ -1,0 +1,1 @@
+nodemon --watch server/includes --watch server/db --watch server/controllers --watch server/models --watch server.js server.js

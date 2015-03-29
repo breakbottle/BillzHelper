@@ -3,5 +3,7 @@ extends shared/layout
 block main-content
     section.content
         div(ng-view)
-    h2 this is regular page content
-        span=model
+        div.hero-text.well
+            if model
+                b=model.heroTextTop
+                div=model.heroTextBottom
