@@ -7,7 +7,6 @@
 var menuItem = require('../models/menu-item');
 console.log('LOADED HOME....................');
 var index = function(globals,request){//arguments
-    console.log('llllllhere nowssssssssss bitch');
    return  {
        pageTitle:"Welcome to "+globals.siteName,
             model:{
@@ -19,7 +18,6 @@ var index = function(globals,request){//arguments
 
 };
 var signup = function(globals,request){//arguments
-    console.log('llllaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
     return  {
         pageTitle:"Sign Up - Create an account",
         model:{

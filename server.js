@@ -110,6 +110,7 @@ app.post('/login',function(req, res,next){
 });
 
 app.get('*',route.get);
+app.post('*',route.get);
 // will print stacktrace
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {

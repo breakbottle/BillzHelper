@@ -32,7 +32,7 @@ var configs = {
         siteVersion:version
     },
     controllers:[
-        new routeItem("home",["/"])
+        new routeItem("home",["/"],{},true)
     ],
     inController:function(route){
         for(var i =0; i < configs.controllers.length;i++){

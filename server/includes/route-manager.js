@@ -7,15 +7,14 @@
 var configs = require('./configs');
 var routeVars = require('../models/route-vars');
 var extend = require('util')._extend;
-var routeManager = function()
-{
+var routeManager = function(){
     var routerManger = this;
+    routerManger.displayError =  'Page you looking for cannot be found';
     routerManger.routeVars = function (request) {
         var vars = new routeVars();
         var getActions = request._parsedOriginalUrl.pathname.split("/");
         vars.controller = getActions[1] || configs.defaultController;
         vars.controllerAction = getActions[2] || "";
-        console.log("ok ok ok",vars)
         for (var i = 0; i < configs.controllers.length; i++) {
             //only load request name
             if (vars.controller == configs.controllers[i].name) {
@@ -25,12 +24,26 @@ var routeManager = function()
         }
         return vars;
     };
-    var appGet = function (req, res, next) {//change app.get to app.all to get all request..you can separate these request by post,post get ect
-
+    routerManger.requestFilter = function(req,index){
+        switch(req.method){
+            //filter other methods, put,delete,opions
+            case 'POST':
+                    if(!configs.controllers[index].acceptPost){
+                        return false;
+                    }
+                break;
+            default:
+                if(!configs.controllers[index].acceptGet){
+                    return false;
+                }
+                break;
+        }
+        return true;
+    };
+    routerManger.routing = function(req, res, next){
         var routeVars = routerManger.routeVars(req);
         var isActionCallable = routeVars.instance[routeVars.controllerAction||configs.defaultControllerView];
-
-        if (routeVars.index != null && isActionCallable) {
+        if (routeVars.index != null && isActionCallable && routerManger.requestFilter(req,routeVars.index)) {
             var siteGlobals = extend(configs.globals,configs.clientGlobals);
             configs.controllers[routeVars.index].viewModel = extend(configs.controllers[routeVars.index].viewModel,isActionCallable(siteGlobals,req));
             var view  = routeVars.controller+"/"+routeVars.controllerAction;
@@ -41,23 +54,20 @@ var routeManager = function()
             var all = extend(routeGlobals, configs.controllers[routeVars.index].viewModel);
             res.render(view, extend(all,configs.clientGlobals));
         } else {
-            //res.status(404);
+            res.status(404);
             if (req.method == 'GET') {
                 res.render('shared/error', {
-                    message: 'Page you looking for cannot be found'
+                    message: routerManger.displayError
                 });
             } else {
                 res.send({
-                    message: 'Page you looking for cannot be found'
+                    message: routerManger.displayError
                 });
             }
         }
-
-
     };
-    var appPost = function (req, res, next) {
-
-    };
+    var appGet = routerManger.routing;
+    var appPost = routerManger.routing;
     var fullRoute = function (app, routePath) {//
         switch (routePath) {
             case "forPartials":
@@ -70,30 +80,11 @@ var routeManager = function()
         }
 
     };
-    var load = function (controllers) {
-        //check controlls to see if allow for post
 
-        /*app.get("/partials/*",function(req,res){
-         res.render('../../public/app/'+req.params[0]);
-         });
-         app.post('/logout',function(req, res,next){
-         console.log('wer are out');
-         req.logout();
-         res.end();//redirect from server to logout landing page.
-         });*/
-        var controllersList = controllers || [];
-        if (controllersList.length > 0) {
-            for (var i = 0; i < controllersList.length; i++) {
-                // if(controllersList[i].)
-            }
-        }
-
-    };
 
     return {
         get: appGet,
         post: appPost,
-        routeVars: routeVars,
         fullRoute: fullRoute
     };
 }
