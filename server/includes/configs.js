@@ -8,30 +8,32 @@ var controllerPath = "../controllers/";
 var extend = require('util')._extend;
 var mysql = require('../db/mysql');
 var mongodb = require('../db/mongo');
+var routeItem = require('../models/route-item');
 
-console.log("In th housed");
 var autoLoadControllers = function(controller){
     //the controller are/should not return any values. since the result is handled by jade
    return require(controllerPath+controller);
 
 };
-
+var sitename = 'BillzHelper';
+var version = 'v5.1.0';
 var configs = {
-    siteVersion:'v5.1.0',
-    siteName:'BillzHelper',
+    siteVersion:version,
+    siteName:sitename,
+    defaultController:"home",
+    defaultControllerView:"index",
     globals:{
-        mysql:mysql,
-        mongodb:mongodb,
-        siteName:function(){
-            return configs.siteName
-        }
+        mysql:mysql//,
+        //mongodb:mongodb
+    },
+    clientGlobals:{
+        currentYear: new Date().getFullYear(),
+        siteName:sitename,
+        siteVersion:version
     },
     controllers:[
-        {
-            route:'/',
-            name:"home",
-            viewModel:{}//page variables
-        }],
+        new routeItem("home",["/"])
+    ],
     inController:function(route){
         for(var i =0; i < configs.controllers.length;i++){
             if(route == configs.controllers[i].route){
@@ -40,21 +42,8 @@ var configs = {
         }
         return null;
     },
-    autoLoadControllers:
-    {
-        method:autoLoadControllers,
-        load:function(requestObject){
-            console.log("request",requestObject._parsedOriginalUrl.pathname);
-            for(var i =0; i < configs.controllers.length;i++){
-                //only load request name
-                if(requestObject._parsedOriginalUrl.pathname == configs.controllers[i].route){
-                    var instance = this.method(configs.controllers[i].name);
-                    configs.controllers[i].viewModel = extend(configs.controllers[i].viewModel,instance(configs.globals,requestObject));
-                }
+    autoLoadControllers:autoLoadControllers
 
-            }
-        }
-    }
 };
 
 module.exports = configs;

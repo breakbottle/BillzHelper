@@ -2,12 +2,12 @@
 doctype
 html
     head
-        title  #{page} | #{name}  #{version}
+        title  #{pageTitle} | #{siteName}  #{siteVersion}
         link(href="/favicon.ico",rel="shortcut icon", type="image/x-icon")
         link(rel="stylesheet", href="/vendor/bootstrap/dist/css/bootstrap.css", type="text/css")
         link(rel="stylesheet", href="/vendor/toastr/toastr.css", type="text/css")
         link(rel="stylesheet", href="/css/site.css", type="text/css")
-        link(rel="stylesheet", href="/css/"+routeName+".css", type="text/css")
+        link(rel="stylesheet", href="/css/"+pageCss+".css", type="text/css")
         base(href="/")
     body(ng-app='app').appcontent
         include currentUser
@@ -16,8 +16,8 @@ html
                 .navbar-header.big-header
                     a(href="/")
                         img(src="/img/logo.png")
-                        div.logo-title=name
-                            span.logo-subtitle=version
+                        div.logo-title=siteName
+                            span.logo-subtitle=siteVersion
                     button.btn.btn-primary.navbar-bt.pull-right.login-btn.visible-xs(type="button",ng-hide="identity.isAuthenticated()") Login
                     div(ng-include="'/partials/account/navbar-login'").pull-right.hidden-xs
                     .navbar.navbar-default.main-menu-bar(ng-show="identity.isAuthenticated()")

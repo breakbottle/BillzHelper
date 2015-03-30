@@ -28,5 +28,8 @@ application.controller('bilLoginCtrl',function($scope,bilAuth,bilAlerts,bilIdent
             $location.path('/');
         });
     };
+    $scope.singup = function(){
+      location.href = "/home/signup";
+    };
 
 });

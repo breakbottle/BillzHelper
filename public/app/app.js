@@ -13,6 +13,12 @@ application.config(function($routeProvider,$locationProvider){
         .when('/',{
             templateUrl: '/partials/home/home',
             controller:'bilHomeCtrl'
+        }).when('/home',{
+            templateUrl: '/partials/home/home',
+            controller:'bilHomeCtrl'
+        }).when('/home/index',{
+            templateUrl: '/partials/home/home',
+            controller:'bilHomeCtrl'
         })
 });
 

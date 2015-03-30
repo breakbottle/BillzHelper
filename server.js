@@ -13,7 +13,8 @@ var express = require('express'),
     cookieParser = require('cookie-parser'),
     session = require('express-session'),
     crypto = require("crypto"),
-    configs = require('./server/includes/configs');
+    configs = require('./server/includes/configs'),
+    route = require('./server/includes/route-manager');
 
 
 var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
@@ -54,12 +55,7 @@ passport.deserializeUser(function(id,done){
     done(null,{id:1,Name:"Clint LoggedIn"});//add condition if can't find user rturn done(null,false);
 });
 
-
-
 var app = express();
-
-
-
 
 function compile(str,path){
  return stylus(str).set('filename',path);
@@ -76,9 +72,7 @@ app.use(session({
     saveUninitialized: true}));
 app.use(passport.initialize());
 app.use(passport.session());
-
 app.use(bodyParser.urlencoded({ extended: false }));
-
 app.use(stylus.middleware(
     {
         src:__dirname+ '/public',
@@ -91,10 +85,9 @@ app.use(express.static(__dirname+'/public'));
     next();
 });
 */
+//route.load(configs.controllers);
+route.fullRoute(app,"forPartials");
 
-app.get("/partials/*",function(req,res){
-    res.render('../../public/app/'+req.params[0]);
-});
 app.post('/logout',function(req, res,next){
     console.log('wer are out');
     req.logout();
@@ -115,35 +108,8 @@ app.post('/login',function(req, res,next){
    });
     auth(req,res,next);
 });
-var extend = require('util')._extend;
-app.get('*',function(req, res,next){//change app.get to app.all to get all request..you can seperate these request by post,post get ect
-    console.log("meeee++++++++++",req.method,"---------------",req.user);
-    configs.autoLoadControllers.load(req);
-    var pageIndex = configs.inController(req._parsedOriginalUrl.pathname);
-    if(pageIndex != null){
-        var serverGlobals = {
-            loggedInUser:req.user,
-            version:configs.siteVersion,
-            name:configs.siteName,
-            routeName:configs.controllers[pageIndex].name,
-            currentYear: new Date().getFullYear()
-        };
-        res.render(configs.controllers[pageIndex].name,extend(serverGlobals,configs.controllers[pageIndex].viewModel));
-    } else {
-        //res.status(404);
-        if(req.method == 'GET'){
-            res.render('shared/error',{
-                message:'Page you looking for cannot be found'
-            });
-        } else {
-            res.send({
-                message:'Page you looking for cannot be found'
-            });
-        }
-    }
 
-
-});
+app.get('*',route.get);
 // will print stacktrace
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {

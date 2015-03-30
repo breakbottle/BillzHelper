@@ -1,0 +1,18 @@
+//Created by Clint Small Cain on 3/29/2015.
+
+extends ../shared/layout
+block main-content
+    section.content.well(ng-controller="bilSignupCtrl",ng-hide="identity.isAuthenticated()")
+        h1 Sign Up
+        h2 Create an account
+
+        div
+            form.form-group
+                .form-group
+                    label Username
+                    input.form-control(placeholder="Username", ng-model="username")
+                .form-group
+                    label Password
+                    input.form-control(type="password",placeholder="password", ng-model="password")
+                button.btn.btn-primary(ng-click="create(username,password)") Create
+

@@ -5,11 +5,11 @@
  * Description:
  */
 var menuItem = require('../models/menu-item');
-
-module.exports =  function(globals,request){//arguments
-
-    var returns =  {
-            page:"Welcome to "+globals.siteName(),
+console.log('LOADED HOME....................');
+var index = function(globals,request){//arguments
+    console.log('llllllhere nowssssssssss bitch');
+   return  {
+       pageTitle:"Welcome to "+globals.siteName,
             model:{
                 heroTextTop:"A tool that helps you keep track of your bills.",//this text should be random
                 heroTextBottom:"Reminders to pay your bills on time"//this text should be random
@@ -17,7 +17,22 @@ module.exports =  function(globals,request){//arguments
             pageMenus: [new menuItem("shante","/clint"),new menuItem("Clint","/clint")]
         };
 
+};
+var signup = function(globals,request){//arguments
+    console.log('llllaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+    return  {
+        pageTitle:"Sign Up - Create an account",
+        model:{
+            heroTextTop:"A tool that helps you keep track of your bills.",//this text should be random
+            heroTextBottom:"Reminders to pay your bills on time"//this text should be random
+        },
+        pageMenus: []
+    };
 
-    return returns;
+};
 
+
+module.exports =  {
+    index:index,
+    signup:signup
 };

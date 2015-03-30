@@ -29,6 +29,15 @@ application.factory('bilAuth',function($http,bilIdentity,$q){
                 deferred.resolve();
             });
             return deferred.promise;
+        },
+        signUpUser:function(username,password){
+            var deferred = $q.defer();
+            $http.post('/home/signup',{username:username,password:password}).then(function(response){
+                bilIdentity.currentUser = undefined;
+                console.log("response",response);
+                deferred.resolve();
+            });
+            return deferred.promise;
         }
     }
 

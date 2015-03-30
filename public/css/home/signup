@@ -1,0 +1,4 @@
+
+.appcontent .content{
+  margin: 110px auto 10px;
+}
