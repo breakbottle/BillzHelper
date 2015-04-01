@@ -8,7 +8,7 @@ application.factory('bilAuth',function($http,bilIdentity,$q){
     return {
         authenticatedUser: function(username,password){
             var deferred = $q.defer();
-            $http.post('/login',{username:username,password:password}).then(function(response){
+            $http.post('/home/login',{username:username,password:password}).then(function(response){
 
                 if(response.data.success){
                     bilIdentity.currentUser = response.data.user;
@@ -24,7 +24,7 @@ application.factory('bilAuth',function($http,bilIdentity,$q){
         },
         logoutUser:function(){
             var deferred = $q.defer();
-            $http.post('/logout',{logout:true}).then(function(){
+            $http.post('/home/logout',{logout:true}).then(function(){
                 bilIdentity.currentUser = undefined;
                 deferred.resolve();
             });

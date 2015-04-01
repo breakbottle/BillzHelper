@@ -45,14 +45,21 @@ var routeManager = function(){
         var isActionCallable = routeVars.instance[routeVars.controllerAction||configs.defaultControllerView];
         if (routeVars.index != null && isActionCallable && routerManger.requestFilter(req,routeVars.index)) {
             var siteGlobals = extend(configs.globals,configs.clientGlobals);
-            configs.controllers[routeVars.index].viewModel = extend(configs.controllers[routeVars.index].viewModel,isActionCallable(siteGlobals,req));
-            var view  = routeVars.controller+"/"+routeVars.controllerAction;
+            var autoView  = routeVars.controller+"/"+routeVars.controllerAction;
             var routeGlobals = {
                 loggedInUser: req.user,//todo:hmmm?
                 pageCss: routeVars.controller+"/"+(routeVars.controllerAction||configs.defaultControllerView)
             };
-            var all = extend(routeGlobals, configs.controllers[routeVars.index].viewModel);
-            res.render(view, extend(all,configs.clientGlobals));
+            var all = extend(routeGlobals, siteGlobals);
+            isActionCallable(req,{
+                View:function(object,view){
+                    res.render(view || autoView, extend(object || {},all)||all);
+                },
+                response:res,
+                next:next,
+                globals:all
+            });
+
         } else {
             res.status(404);
             if (req.method == 'GET') {
