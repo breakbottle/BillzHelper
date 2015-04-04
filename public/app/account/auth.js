@@ -33,9 +33,12 @@ application.factory('bilAuth',function($http,bilIdentity,$q){
         signUpUser:function(username,password){
             var deferred = $q.defer();
             $http.post('/home/signup',{username:username,password:password}).then(function(response){
-                bilIdentity.currentUser = undefined;
-                console.log("response",response);
-                deferred.resolve();
+                if(response.data.success){
+                    bilIdentity.currentUser = response.data.user;
+                    deferred.resolve(true);
+                } else {
+                    deferred.resolve(false);
+                }
             });
             return deferred.promise;
         }

@@ -16,8 +16,6 @@ var express = require('express'),
     route = require('./server/includes/route-manager');
 var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-
-
 var app = express();
 
 function compile(str,path){
@@ -38,7 +36,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(stylus.middleware(
     {
         src:__dirname+ '/public',
-        compile: compile
+        compile: function(str,path){
+            return stylus(str).set('filename',path);
+        }
     }
 ));
 app.use(express.static(__dirname+'/public'));
@@ -49,8 +49,8 @@ app.use(express.static(__dirname+'/public'));
 */
 route.fullRoute(app,"forPartials");
 
-app.get('*',route.get);
-app.post('*',route.get);
+app.get('*',route.request);
+app.post('*',route.request);
 // will print stacktrace
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
@@ -70,6 +70,6 @@ app.use(function(err, req, res, next) {
         stack: {}
     });
 });
-var port = 3030;
-app.listen(port);
-console.log("Listening on port "+port+'...');
+app.listen(configs.serverPort);
+console.log("Listening on port "+configs.serverPort+'...');
+module.exports = app;

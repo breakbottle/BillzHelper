@@ -18,6 +18,7 @@ var autoLoadControllers = function(controller){
 var sitename = 'BillzHelper';
 var version = 'v5.1.0';
 var configs = {
+    serverPort:3030,
     siteVersion:version,
     siteName:sitename,
     defaultController:"home",

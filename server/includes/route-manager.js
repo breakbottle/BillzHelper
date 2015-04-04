@@ -9,7 +9,7 @@ var routeVars = require('../models/route-vars');
 var extend = require('util')._extend;
 var routeManager = function(){
     var routerManger = this;
-    routerManger.displayError =  'Page you looking for cannot be found';
+    routerManger.displayError =  'The page your are looking for cannot be found.';
     routerManger.routeVars = function (request) {
         var vars = new routeVars();
         var getActions = request._parsedOriginalUrl.pathname.split("/");
@@ -59,7 +59,7 @@ var routeManager = function(){
                 next:next,
                 globals:all
             });
-
+            return all;
         } else {
             res.status(404);
             if (req.method == 'GET') {
@@ -73,9 +73,9 @@ var routeManager = function(){
             }
         }
     };
-    var appGet = routerManger.routing;
-    var appPost = routerManger.routing;
-    var fullRoute = function (app, routePath) {//
+    var request = routerManger.routing;
+    var fullRoute = function (app, routePath) {
+        var partialFound = false;
         switch (routePath) {
             case "forPartials":
                 app.get("/partials/*", function (req, res) {
@@ -90,9 +90,9 @@ var routeManager = function(){
 
 
     return {
-        get: appGet,
-        post: appPost,
-        fullRoute: fullRoute
+        request: request,
+        fullRoute: fullRoute,
+        testable:routerManger
     };
 }
 module.exports = routeManager();

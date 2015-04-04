@@ -4,6 +4,6 @@
  * Time: 9:40 PM
  * Description:
  */
-angular.module('app',['ngResource']);
+angular.module('app',['ngResource']);//,'ngMockE2E'
 var application = angular.module('app');
 var toastr  = {};

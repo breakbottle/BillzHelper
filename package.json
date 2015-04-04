@@ -22,11 +22,21 @@
   },
   "devDependencies": {
     "chai": "^2.1.2",
+    "express-mock-request": "0.0.2",
+    "gulp": "^3.8.11",
+    "gulp-load-plugins": "^0.9.0",
+    "gulp-mocha": "^2.0.1",
+    "gulp-util": "^3.0.4",
+    "gulp-watch": "^4.2.2",
     "karma": "^0.12.31",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^0.1.7",
     "karma-mocha": "^0.1.10",
     "mocha": "^2.2.1",
-    "requirejs": "^2.1.16"
+    "mock-request": "^0.1.2",
+    "mocks": "0.0.15",
+    "node-mocks-http": "^1.2.7",
+    "requirejs": "^2.1.16",
+    "should": "^5.2.0"
   }
 }
