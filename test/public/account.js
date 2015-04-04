@@ -26,7 +26,7 @@ describe('Account',function(){
     }));
 
     it('authenticated user should be valid', function(){
-        $httpBackend.when('POST','/home/login')//.passThrough();
+        $httpBackend.when('POST','/account/login')//.passThrough();
             .respond({
                 success:true,
                 user:{Name:"clint"}
@@ -43,7 +43,7 @@ describe('Account',function(){
         expect(user.Name).to.equal("clint");
     });
     it('authenticated user should not be valid', function(){
-        $httpBackend.whenPOST('/home/login')
+        $httpBackend.whenPOST('/account/login')
             .respond({
                 success:false,
                 user:"clint"
@@ -57,7 +57,7 @@ describe('Account',function(){
         expect(valid).to.be.false;
     });
     it('logout user should not have errors', function(){
-        $httpBackend.whenPOST('/home/logout')
+        $httpBackend.whenPOST('/account/logout')
             .respond({
                 success:false
             });
@@ -72,7 +72,7 @@ describe('Account',function(){
         expect(user).to.be.a('undefined');
     });
     it('signed up user should create successfully', function(){
-        $httpBackend.whenPOST('/home/signup')
+        $httpBackend.whenPOST('/account/signup')
             .respond({
                 success:true,
                 user:"clint"
