@@ -4,7 +4,7 @@
  * Time: 4:08 PM
  * Description:
  */
-application.controller('bilSignupCtrl',function($scope,bilIdentity,bilAlerts,bilAuth){
+application.controller('bilSignupCtrl',function(bilDebug,$scope,bilIdentity,bilAlerts,bilAuth){
     $scope.identity = bilIdentity;
     $scope.username = "";
     $scope.password = "";
@@ -13,8 +13,10 @@ application.controller('bilSignupCtrl',function($scope,bilIdentity,bilAlerts,bil
             if(success){
                 bilAlerts.notify("got someting");
             } else {
-                bilAlerts.notify("you uuuuuuu")
+                bilAlerts.error("you uuuuuuu")
             }
         });
-    };
+    }, function(reason){
+        bilAlerts.error("there was an error");
+    }
 });

@@ -4,19 +4,22 @@
  * Time: 8:39 PM
  * Description:
  */
-application.factory('bilAuth',function($http,bilIdentity,$q){
+application.factory('bilAuth',function(bilDebug,$http,bilIdentity,$q,bilUser){
     return {
         authenticatedUser: function(username,password){
             var deferred = $q.defer();
-            $http.post('/home/login',{username:username,password:password}).then(function(response){
+            var data = {username:username,password:password};
+            $http.post('/home/login',data).then(function(response){
 
                 if(response.data.success){
-                    bilIdentity.currentUser = response.data.user;
-                    //bilAlerts.notify("you in");
+                    var user = new bilUser();
+                    angular.extend(user,response.data.user);
+                    bilIdentity.currentUser = user;
+                    bilDebug("bilAuth","success from auth",user);
                     deferred.resolve(true);
                 } else {
                     deferred.resolve(false);
-                    //bilAlerts.notify("you fail")
+                    bilDebug("bilAuth","fail from auth",data,response);
                }
 
             });

@@ -5,11 +5,15 @@
  * Description:
  */
 application.value('bilToastr',toastr)
-.factory('bilAlerts',function(bilToastr){
+.factory('bilAlerts',function(bilToastr,bilDebug){
     return {
         notify:function(msg){
             bilToastr.success(msg);
-            console.log(msg);
+            bilDebug('bilAlerts','success',msg);
+        },
+        error:function(msg){
+            bilToastr.error(msg);
+            bilDebug('bilAlerts','error',msg);
         }
     }
 });

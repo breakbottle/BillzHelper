@@ -35,11 +35,12 @@ describe('router-manager',function(){
     });
     describe('requestFilter',function(){
         //examples of testing filters
-        it('Request Method Post on index 0 (home) should be accept post',function(){
-            chai.expect(route.testable.requestFilter({method:'POST'},0)).to.be.true;
+        var action = require(__cwd+'/server/models/controller-action');
+        it('Request Method Post on action should accept post',function(){
+            chai.expect(route.testable.requestFilter({method:'POST'},action(function(){},true))).to.be.true;
         });
-        it('Request Method GET on index 0 (home) should be accept get',function(){
-            chai.expect(route.testable.requestFilter({method:'GET'},0)).to.be.true;
+        it('Request Method GET on action should accept get',function(){
+            chai.expect(route.testable.requestFilter({method:'GET'},action(function(){},true,false))).to.be.true;
         });
     });
     describe('routing',function(){
@@ -47,12 +48,14 @@ describe('router-manager',function(){
             var mockResponse = httpMocks.createResponse();
             var mockRequest =  httpMocks.createRequest({
                 method: 'GET',
-                url: '/home/login'
+                url: '/home/signup'
             });
             mockRequest._parsedOriginalUrl = {
-                pathname:"/home/login"
+                pathname:"/home/signup"
             };
+
             var globals = route.request(mockRequest,mockResponse,{});
+            //console.log("working... ",globals)
             chai.expect(globals).to.have.property('loggedInUser')
         });
     });

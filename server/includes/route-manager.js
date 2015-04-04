@@ -8,9 +8,9 @@ var configs = require('./configs');
 var routeVars = require('../models/route-vars');
 var extend = require('util')._extend;
 var routeManager = function(){
-    var routerManger = this;
-    routerManger.displayError =  'The page your are looking for cannot be found.';
-    routerManger.routeVars = function (request) {
+    var routerManager = this;
+    routerManager.displayError =  'The page your are looking for cannot be found.';
+    routerManager.routeVars = function (request) {
         var vars = new routeVars();
         var getActions = request._parsedOriginalUrl.pathname.split("/");
         vars.controller = getActions[1] || configs.defaultController;
@@ -24,36 +24,40 @@ var routeManager = function(){
         }
         return vars;
     };
-    routerManger.requestFilter = function(req,index){
+    routerManager.requestFilter = function(req,actionObject){
         switch(req.method){
             //filter other methods, put,delete,opions
             case 'POST':
-                    if(!configs.controllers[index].acceptPost){
+                    if(!actionObject.acceptPost){
                         return false;
                     }
                 break;
             default:
-                if(!configs.controllers[index].acceptGet){
+                if(!actionObject.acceptGet){
                     return false;
                 }
                 break;
         }
         return true;
     };
-    routerManger.routing = function(req, res, next){
-        var routeVars = routerManger.routeVars(req);
+    routerManager.routing = function(req, res, next){
+        var routeVars = routerManager.routeVars(req);
         var isActionCallable = routeVars.instance[routeVars.controllerAction||configs.defaultControllerView];
-        if (routeVars.index != null && isActionCallable && routerManger.requestFilter(req,routeVars.index)) {
+        if (routeVars.index != null && isActionCallable.action && routerManager.requestFilter(req,isActionCallable)) {
             var siteGlobals = extend(configs.globals,configs.clientGlobals);
             var autoView  = routeVars.controller+"/"+routeVars.controllerAction;
             var routeGlobals = {
                 loggedInUser: req.user,//todo:hmmm?
+                clientSideLogging :configs.clientSideLogging,
                 pageCss: routeVars.controller+"/"+(routeVars.controllerAction||configs.defaultControllerView)
             };
             var all = extend(routeGlobals, siteGlobals);
-            isActionCallable(req,{
+            isActionCallable.action(req,{
                 View:function(object,view){
                     res.render(view || autoView, extend(object || {},all)||all);
+                },
+                JSON:function(object){
+                    res.send(object);
                 },
                 response:res,
                 next:next,
@@ -64,16 +68,19 @@ var routeManager = function(){
             res.status(404);
             if (req.method == 'GET') {
                 res.render('shared/error', {
-                    message: routerManger.displayError
+                    message: routerManager.displayError
                 });
             } else {
                 res.send({
-                    message: routerManger.displayError
+                    message: routerManager.displayError
                 });
             }
         }
     };
-    var request = routerManger.routing;
+    routerManager.abstractActions = function(objectOfActions){
+
+    };
+    var request = routerManager.routing;
     var fullRoute = function (app, routePath) {
         var partialFound = false;
         switch (routePath) {
@@ -92,7 +99,7 @@ var routeManager = function(){
     return {
         request: request,
         fullRoute: fullRoute,
-        testable:routerManger
+        testable:routerManager
     };
 }
 module.exports = routeManager();

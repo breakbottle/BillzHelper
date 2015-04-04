@@ -5,6 +5,7 @@
  * Description:
  */
 var menuItem = require('../models/menu-item');
+var action = require('../models/controller-action');
 var passport = require('../includes/auth');
 var index = function(request,router){//arguments
    var model =  {
@@ -49,8 +50,8 @@ var logout = function(request,router){
 };
 
 module.exports =  {
-    index:index,
-    signup:signup,
-    login:login,
-    logout:logout
+    index:action(index),
+    signup:action(signup,true),
+    login:action(login,true),
+    logout:action(logout,true)
 };

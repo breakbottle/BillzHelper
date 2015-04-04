@@ -20,6 +20,7 @@ var version = 'v5.1.0';
 var configs = {
     serverPort:3030,
     siteVersion:version,
+    clientSideLogging:true,
     siteName:sitename,
     defaultController:"home",
     defaultControllerView:"index",
@@ -33,7 +34,7 @@ var configs = {
         siteVersion:version
     },
     controllers:[
-        new routeItem("home",["/"],true)
+        new routeItem("home",["/"])
     ],
     inController:function(route){
         for(var i =0; i < configs.controllers.length;i++){

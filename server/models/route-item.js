@@ -4,14 +4,10 @@
  * Time: 4:49 PM
  * Description:
  */
-module.exports = function(name,route,acceptPost,acceptGet){
+module.exports = function(name,route){
 
-    var defaultAP = acceptPost || false;
-    var defaultAG = acceptGet || true;
     return {
         route:route,
-        name:name,
-        acceptPost:defaultAP,
-        acceptGet:defaultAG
+        name:name
     }
 };

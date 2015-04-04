@@ -4,10 +4,11 @@
  * Time: 9:02 AM
  * Description:
  */
-application.factory('bilIdentity',function($window){
+application.factory('bilIdentity',function($window,bilUser){
     var currentUser;
     if(!!$window.bilUO){
-        currentUser = $window.bilUO;
+        currentUser = new bilUser();
+        angular.extend(currentUser,$window.bilUO);
     }
     return {
         currentUser:currentUser,

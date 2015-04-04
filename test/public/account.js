@@ -29,17 +29,18 @@ describe('Account',function(){
         $httpBackend.when('POST','/home/login')//.passThrough();
             .respond({
                 success:true,
-                user:"clint"
+                user:{Name:"clint"}
             });
 
         var valid,user;
         bilAuth.authenticatedUser("blah","blah").then(function(result){
-            user = bilIdentity.currentUser;
+            user = bilIdentity.currentUser; //console.log("what",user)
             valid = result;
         });
+
         flushAndDigest();
         expect(valid).to.be.true;
-        expect(user).to.equal("clint");
+        expect(user.Name).to.equal("clint");
     });
     it('authenticated user should not be valid', function(){
         $httpBackend.whenPOST('/home/login')
