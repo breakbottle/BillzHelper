@@ -34,7 +34,8 @@ var configs = {
         siteVersion:version
     },
     controllers:[
-        new routeItem("home",["/"])
+        new routeItem("home",["/"]),
+        new routeItem("account",["/acct"])
     ],
     inController:function(route){
         for(var i =0; i < configs.controllers.length;i++){

@@ -21,7 +21,7 @@ describe('router-manager',function(){
         beforeEach(function(done){
             request = route.testable.routeVars({
                 _parsedOriginalUrl:{
-                    pathname:"/home/login"
+                    pathname:"/account/login"
                 }
             });
             done();
@@ -48,10 +48,10 @@ describe('router-manager',function(){
             var mockResponse = httpMocks.createResponse();
             var mockRequest =  httpMocks.createRequest({
                 method: 'GET',
-                url: '/home/signup'
+                url: '/account/signup'
             });
             mockRequest._parsedOriginalUrl = {
-                pathname:"/home/signup"
+                pathname:"/account/signup"
             };
 
             var globals = route.request(mockRequest,mockResponse,{});

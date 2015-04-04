@@ -17,7 +17,7 @@ application.controller('bilLoginCtrl',function($scope,bilAuth,bilAlerts,bilIdent
             if(success){
                 bilAlerts.notify("you in");
             } else {
-                bilAlerts.notify("you fail")
+                bilAlerts.error("you fail")
             }
         });
     };

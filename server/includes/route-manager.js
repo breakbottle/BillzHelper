@@ -42,8 +42,9 @@ var routeManager = function(){
     };
     routerManager.routing = function(req, res, next){
         var routeVars = routerManager.routeVars(req);
+        //console.log("touer",routeVars)
         var isActionCallable = routeVars.instance[routeVars.controllerAction||configs.defaultControllerView];
-        if (routeVars.index != null && isActionCallable.action && routerManager.requestFilter(req,isActionCallable)) {
+        if (routeVars.index != null && isActionCallable && routerManager.requestFilter(req,isActionCallable)) {
             var siteGlobals = extend(configs.globals,configs.clientGlobals);
             var autoView  = routeVars.controller+"/"+routeVars.controllerAction;
             var routeGlobals = {

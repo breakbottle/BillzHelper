@@ -9,7 +9,7 @@ application.factory('bilAuth',function(bilDebug,$http,bilIdentity,$q,bilUser){
         authenticatedUser: function(username,password){
             var deferred = $q.defer();
             var data = {username:username,password:password};
-            $http.post('/home/login',data).then(function(response){
+            $http.post('/account/login',data).then(function(response){
 
                 if(response.data.success){
                     var user = new bilUser();
@@ -27,7 +27,7 @@ application.factory('bilAuth',function(bilDebug,$http,bilIdentity,$q,bilUser){
         },
         logoutUser:function(){
             var deferred = $q.defer();
-            $http.post('/home/logout',{logout:true}).then(function(){
+            $http.post('/account/logout',{logout:true}).then(function(){
                 bilIdentity.currentUser = undefined;
                 deferred.resolve();
             });
@@ -35,7 +35,7 @@ application.factory('bilAuth',function(bilDebug,$http,bilIdentity,$q,bilUser){
         },
         signUpUser:function(username,password){
             var deferred = $q.defer();
-            $http.post('/home/signup',{username:username,password:password}).then(function(response){
+            $http.post('/account/signup',{username:username,password:password}).then(function(response){
                 if(response.data.success){
                     bilIdentity.currentUser = response.data.user;
                     deferred.resolve(true);
