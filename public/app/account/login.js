@@ -29,7 +29,7 @@ application.controller('bilLoginCtrl',function($scope,bilAuth,bilAlerts,bilIdent
         });
     };
     $scope.singup = function(){
-      location.href = "/home/signup";
+      location.href = "/account/signup";
     };
 
 });

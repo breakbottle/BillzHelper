@@ -5,25 +5,18 @@
  * Description:
  */
 var passport = require('passport'),
-    crypto = require("crypto"),
+    utils = require("./utils"),
     localStrategy = require('passport-local').Strategy;
 
-var createSalt = function(){
-    return crypto.randomBytes(128).toString('base64');
-};
-var hashPassword = function(salt,pwd){
-    var hmac = crypto.createHmac('sha1',salt);
-    return hmac.update(pwd).digest('hex');
 
-};
 passport.use(new localStrategy(
     function(user,pass,done){
         //here we connect to mysql
 
         var salt,hash,superadmin;
-        salt = createSalt();
-        hash = hashPassword(salt,pass);
-        superadmin = hashPassword(salt,"clint");
+        salt = utils.createSalt();
+        hash = utils.hashPassword(salt,pass);
+        superadmin = utils.hashPassword(salt,"clint");
         console.log("this pass ",pass, " for this hash ",hash);
 
         if(superadmin == hash){//check for user pass
@@ -34,6 +27,18 @@ passport.use(new localStrategy(
 
     }
 ));
+var createUser = function(request,done){
+    //console.log("what is request",request)
+    var userData = request.body;
+    userData.salt = utils.createSalt();
+    userData.salt = utils.hashPassword(userData.salt,userData.password);
+    //request.status(404);
+    console.log("user is created",userData)
+    //request.status(400)if fail
+    //auto login-- request.logIn(
+    //return done(null,userData);
+};
+
 passport.serializeUser(function(user,done){
     if(user){
         done(null,user.id);
@@ -44,4 +49,7 @@ passport.deserializeUser(function(id,done){
     done(null,{id:1,Name:"Clint LoggedIn"});//add condition if can't find user rturn done(null,false);
 });
 
-module.exports = passport;
+module.exports = {
+    passport:passport,
+    createUser:createUser
+};

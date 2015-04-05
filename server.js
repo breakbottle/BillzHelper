@@ -8,7 +8,7 @@ var express = require('express'),
     stylus = require('stylus'),
     morganLogger = require('morgan'),
     bodyParser = require('body-parser'),
-    authPassport = require('./server/includes/auth'),
+    authPassport = require('./server/includes/auth').passport,
     cookieParser = require('cookie-parser'),
     session = require('express-session'),
 

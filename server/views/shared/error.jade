@@ -2,6 +2,8 @@
 extends layout
 
 block main-content
-    h1=message
-    h2=error
-    pre #{stack}
+    section.content
+        h1.alert.h1-error=message
+        if !! clientSideLogging
+            h2.alert.alert-danger=error
+            pre.alert-danger #{stack}

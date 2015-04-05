@@ -6,7 +6,7 @@
  */
 var menuItem = require('../models/menu-item');
 var action = require('../models/controller-action');
-var passport = require('../includes/auth');
+var serverAuth = require('../includes/auth');
 var index = function(request,router){//arguments
     var model =  {
         pageTitle:"Welcome to "+router.globals.siteName,
@@ -17,6 +17,12 @@ var index = function(request,router){//arguments
         pageMenus: [new menuItem("shante","/clint"),new menuItem("Clint","/clint")]
     };
     router.View(model);
+};
+var signupPOST = function(request,router){
+
+    serverAuth.createUser(request);
+    console.log("here")
+    router.JSON({success:true});
 };
 var signup = function(request,router){//arguments
     var model =  {
@@ -29,8 +35,9 @@ var signup = function(request,router){//arguments
     };
     router.View(model);
 };
+
 var login = function(request,router){
-    var auth = passport.authenticate('local',function(err,user){
+    var auth = serverAuth.passport.authenticate('local',function(err,user){
         console.log('madsssssse it here',user);
         if(err) return router.next(err);
         if(!user){
@@ -48,10 +55,10 @@ var logout = function(request,router){
     request.logout();
     router.response.end();//redirect from server to logout landing page.
 };
-
+//console.log("whatttttttttttt",action(signup,true).post(signupPOST))
 module.exports =  {
     index:action(index),
-    signup:action(signup,true),
-    login:action(login,true),
-    logout:action(logout,true)
+    signup:action(signup,true).post(signupPOST),
+    login:action(login,true).post(login),
+    logout:action(logout,true).post(logout)
 };

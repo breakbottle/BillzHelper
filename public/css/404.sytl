@@ -1,0 +1,5 @@
+@import vars
+
+.h1-error{
+  color:$color-error;
+}

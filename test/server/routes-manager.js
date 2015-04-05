@@ -37,7 +37,7 @@ describe('router-manager',function(){
         //examples of testing filters
         var action = require(__cwd+'/server/models/controller-action');
         it('Request Method Post on action should accept post',function(){
-            chai.expect(route.testable.requestFilter({method:'POST'},action(function(){},true))).to.be.true;
+            chai.expect(route.testable.requestFilter({method:'POST'},action(function(){},true).post(function(){}))).to.be.true;
         });
         it('Request Method GET on action should accept get',function(){
             chai.expect(route.testable.requestFilter({method:'GET'},action(function(){},true,false))).to.be.true;
@@ -48,15 +48,35 @@ describe('router-manager',function(){
             var mockResponse = httpMocks.createResponse();
             var mockRequest =  httpMocks.createRequest({
                 method: 'GET',
-                url: '/account/signup'
+                url: '/account/index'
             });
+            //test index path
+            mockRequest._parsedOriginalUrl = {
+                pathname:"/account/index"
+            };
+            var globals = route.request(mockRequest,mockResponse,{});
+            chai.expect(globals).to.have.property('loggedInUser');
+            //test login path
+            mockRequest._parsedOriginalUrl = {
+                pathname:"/account/login"
+            };
+            var globals = route.request(mockRequest,mockResponse,{});
+            chai.expect(globals).to.have.property('loggedInUser');
+            //test logout path
+            mockRequest._parsedOriginalUrl = {
+                pathname:"/account/logout"
+
+            };
+            mockRequest.logout = function(){};
+            var globals = route.request(mockRequest,mockResponse,{});
+            chai.expect(globals).to.have.property('loggedInUser');
+            //test
             mockRequest._parsedOriginalUrl = {
                 pathname:"/account/signup"
             };
-
+            mockRequest.body = {username:"test",password:"test"};
             var globals = route.request(mockRequest,mockResponse,{});
-            //console.log("working... ",globals)
-            chai.expect(globals).to.have.property('loggedInUser')
+            chai.expect(globals).to.have.property('loggedInUser');
         });
     });
 });

@@ -11,7 +11,15 @@ module.exports = function(action,acceptPost,acceptGet){
 
     return {
         action:action,
+        postAction:null,
+        //put//delete
         acceptPost:defaultAP,
-        acceptGet:defaultAG
+        acceptGet:defaultAG,
+
+        post:function(post){
+            this.postAction = post;
+            return this;
+        }
+
     }
 };

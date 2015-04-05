@@ -24,13 +24,22 @@ var routeManager = function(){
         }
         return vars;
     };
-    routerManager.requestFilter = function(req,actionObject){
+    routerManager.requestFilter = function(req,actionObject,actionName){
         switch(req.method){
             //filter other methods, put,delete,opions
             case 'POST':
                     if(!actionObject.acceptPost){
+                        console.log("here it is")
                         return false;
                     }
+                if(!actionObject.postAction){
+                    //the post method is not available
+                    console.log("action name please",actionObject);
+                    throw "Controller Action allows post but no method defined "+actionName;
+                    return false;
+                } else {
+                    actionObject.action = actionObject.postAction;//switch action to post action
+                }
                 break;
             default:
                 if(!actionObject.acceptGet){
@@ -44,8 +53,9 @@ var routeManager = function(){
         var routeVars = routerManager.routeVars(req);
         //console.log("touer",routeVars)
         var isActionCallable = routeVars.instance[routeVars.controllerAction||configs.defaultControllerView];
-        if (routeVars.index != null && isActionCallable && routerManager.requestFilter(req,isActionCallable)) {
-            var siteGlobals = extend(configs.globals,configs.clientGlobals);
+        var siteGlobals = extend(configs.globals,configs.clientGlobals);
+        if (routeVars.index != null && isActionCallable && routerManager.requestFilter(req,isActionCallable,routeVars.controllerAction)) {
+
             var autoView  = routeVars.controller+"/"+routeVars.controllerAction;
             var routeGlobals = {
                 loggedInUser: req.user,//todo:hmmm?
@@ -68,9 +78,12 @@ var routeManager = function(){
         } else {
             res.status(404);
             if (req.method == 'GET') {
-                res.render('shared/error', {
-                    message: routerManager.displayError
-                });
+                res.render('shared/error', extend(siteGlobals,{
+                    message: routerManager.displayError,
+                    clientSideLogging :configs.clientSideLogging,
+                    pageCss:"404",
+                    pageTitle:"Error 404"
+                }));
             } else {
                 res.send({
                     message: routerManager.displayError
