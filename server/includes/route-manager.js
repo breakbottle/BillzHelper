@@ -25,6 +25,7 @@ var routeManager = function(){
         return vars;
     };
     routerManager.requestFilter = function(req,actionObject,actionName){
+        console.log(req.method,"a*************************e", actionObject.action);
         switch(req.method){
             //filter other methods, put,delete,opions
             case 'POST':
@@ -38,10 +39,15 @@ var routeManager = function(){
                     throw "Controller Action allows post but no method defined "+actionName;
                     return false;
                 } else {
-                    actionObject.action = actionObject.postAction;//switch action to post action
+                    console.log("here it is-switchyyyyyyyyyyyyyyyyyyyyyy")
+                    actionObject.call = actionObject.postAction;//switch action to post action
                 }
                 break;
             default:
+                if(actionObject.action != actionObject.call){ console.log("reeeeeeeeeeeees")
+                    actionObject.call = actionObject.action;//reset
+                }
+
                 if(!actionObject.acceptGet){
                     return false;
                 }
@@ -63,12 +69,16 @@ var routeManager = function(){
                 pageCss: routeVars.controller+"/"+(routeVars.controllerAction||configs.defaultControllerView)
             };
             var all = extend(routeGlobals, siteGlobals);
-            isActionCallable.action(req,{
+            isActionCallable.call(req,{
                 View:function(object,view){
                     res.render(view || autoView, extend(object || {},all)||all);
                 },
                 JSON:function(object){
                     res.send(object);
+                },
+                SendError:function(code,msg){
+                    res.status(code||500);
+                    res.send(msg);
                 },
                 response:res,
                 next:next,

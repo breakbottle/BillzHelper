@@ -19,10 +19,19 @@ var index = function(request,router){//arguments
     router.View(model);
 };
 var signupPOST = function(request,router){
+    var created = serverAuth.createUser(request);
+    if(created){//create.valid bool
+        var usr  = {id:1,Name:"Clint LoggedIn"};
 
-    serverAuth.createUser(request);
-    console.log("here")
-    router.JSON({success:true});
+
+        request.logIn(usr,function(error){
+            if(error) return router.next(error);
+        });
+        router.JSON(usr);
+    } else {
+        router.SendError(500,{reason:"Error creating user"});
+    }
+
 };
 var signup = function(request,router){//arguments
     var model =  {
@@ -38,7 +47,6 @@ var signup = function(request,router){//arguments
 
 var login = function(request,router){
     var auth = serverAuth.passport.authenticate('local',function(err,user){
-        console.log('madsssssse it here',user);
         if(err) return router.next(err);
         if(!user){
             router.response.send({success:false});
@@ -55,7 +63,6 @@ var logout = function(request,router){
     request.logout();
     router.response.end();//redirect from server to logout landing page.
 };
-//console.log("whatttttttttttt",action(signup,true).post(signupPOST))
 module.exports =  {
     index:action(index),
     signup:action(signup,true).post(signupPOST),

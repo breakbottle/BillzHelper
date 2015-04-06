@@ -32,8 +32,10 @@ var createUser = function(request,done){
     var userData = request.body;
     userData.salt = utils.createSalt();
     userData.salt = utils.hashPassword(userData.salt,userData.password);
-    //request.status(404);
-    console.log("user is created",userData)
+    //request.status(400);
+    //request.send({reason:"no good"});
+    console.log("user is created",userData);
+
     //request.status(400)if fail
     //auto login-- request.logIn(
     //return done(null,userData);

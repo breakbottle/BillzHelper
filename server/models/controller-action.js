@@ -15,7 +15,7 @@ module.exports = function(action,acceptPost,acceptGet){
         //put//delete
         acceptPost:defaultAP,
         acceptGet:defaultAG,
-
+        call:action,//used to call the action
         post:function(post){
             this.postAction = post;
             return this;
