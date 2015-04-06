@@ -7,6 +7,7 @@
 var menuItem = require('../models/menu-item');
 var action = require('../models/controller-action');
 var serverAuth = require('../includes/auth');
+var bilUserObject = require('../models/users');
 var index = function(request,router){//arguments
     var model =  {
         pageTitle:"Welcome to "+router.globals.siteName,
@@ -21,13 +22,15 @@ var index = function(request,router){//arguments
 var signupPOST = function(request,router){
     var created = serverAuth.createUser(request);
     if(created){//create.valid bool
-        var usr  = {id:1,Name:"Clint LoggedIn"};
+        var bilUser = new bilUserObject("Keilah");
+        bilUser.userId = 1;
 
 
-        request.logIn(usr,function(error){
+
+        request.logIn(bilUser,function(error){
             if(error) return router.next(error);
         });
-        router.JSON(usr);
+        router.JSON(bilUser);
     } else {
         router.SendError(500,{reason:"Error creating user"});
     }

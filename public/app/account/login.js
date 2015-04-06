@@ -13,13 +13,18 @@ application.controller('bilLoginCtrl',function($scope,bilAuth,bilAlerts,bilIdent
     };
     resetUser();
     $scope.login = function(username,password){
-        bilAuth.authenticatedUser(username,password).then(function(success){
-            if(success){
-                bilAlerts.notify("you in");
-            } else {
-                bilAlerts.error("you fail")
-            }
-        });
+        if(this.bilLoginForm.$valid){
+            bilAuth.authenticatedUser(username,password).then(function(success){
+
+                if(success){
+                    bilAlerts.notify("you in");
+                } else {
+                    bilAlerts.error("you fail")
+                }
+            });
+        } else {
+            bilAlerts.error("Please enter your username and password")
+        }
     };
     $scope.logout = function(){
         bilAuth.logoutUser().then(function(){

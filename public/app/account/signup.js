@@ -6,20 +6,20 @@
  */
 application.controller('bilSignupCtrl',function(bilDebug,$scope,bilIdentity,bilAlerts,bilAuth,$location){
     $scope.identity = bilIdentity;
-    $scope.username = "";
-    $scope.password = "";
-    $scope.create = function(username,password){
-        bilAuth.signUpUser(username,password).then(function(success){
-            bilAlerts.notify('acccount was good');
-            //$location.path('/');
-
-            /*if(success){
-                bilAlerts.notify("got someting");
-            } else {
-                bilAlerts.error("you uuuuuuu")
-            }*/
-        },function(reason){
-            bilAlerts.error(reason+" hi");
-        });
+    $scope.userName = "";
+    $scope.userPassword = "";
+    $scope.userEmail = "";
+    $scope.create = function(userEmail,userName,userPassword){
+        if(this.bilSignupFom.$valid){
+            bilAuth.signUpUser(userEmail,userName,userPassword).then(function(success){
+                bilAlerts.notify('account was good');
+                //$location.path('/');
+                location.href = "/";
+            },function(reason){
+                bilAlerts.error(reason);
+            });
+        } else {
+            bilAlerts.error("Fully complete form with valid values to sign up!");
+        }
     }
 });

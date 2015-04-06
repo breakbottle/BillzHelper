@@ -33,9 +33,9 @@ application.factory('bilAuth',function(bilDebug,$http,bilIdentity,$q,bilUser){
             });
             return deferred.promise;
         },
-        signUpUser:function(username,password){
+        signUpUser:function(email,username,password){
             var deferred = $q.defer();
-            var newUser = new bilUser({username:username,password:password});
+            var newUser = new bilUser({userEmail:email,userName:username,userPassword:password});
             newUser.$save().then(function(){
                 bilIdentity.currentUser = newUser;
                 deferred.resolve();
@@ -43,16 +43,6 @@ application.factory('bilAuth',function(bilDebug,$http,bilIdentity,$q,bilUser){
                 deferred.reject(response.data.reason);
             });
 
-            /*
-            $http.post('/account/signup',{username:username,password:password}).then(function(response){
-
-                if(response.data.success){
-                    bilIdentity.currentUser = response.data.user;
-                    deferred.resolve(true);
-                } else {
-                    deferred.resolve(false);
-                }
-            });*/
             return deferred.promise;
         }
     }

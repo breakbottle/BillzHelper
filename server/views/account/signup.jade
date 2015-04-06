@@ -7,12 +7,15 @@ block main-content
         h2 Create an account
 
         div
-            form.form-group
+            form.form-group(name="bilSignupFom",novalidate="false")
+                .form-group
+                    label Email
+                    input.form-control(placeholder="Email", ng-model="userEmail",name="userEmail",required="true",type="email")
                 .form-group
                     label Username
-                    input.form-control(placeholder="Username", ng-model="username")
+                    input.form-control(placeholder="Username", ng-model="userName",name="userName",required="true")
                 .form-group
                     label Password
-                    input.form-control(type="password",placeholder="password", ng-model="password")
-                button.btn.btn-primary(ng-click="create(username,password)") Create
+                    input.form-control(type="password",placeholder="password", ng-model="userPassword",name="userPassword",required="true")
+                button.btn.btn-primary(ng-click="create(userEmail,userName,userPassword)") Create
 
