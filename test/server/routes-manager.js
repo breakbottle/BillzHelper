@@ -60,7 +60,7 @@ describe('router-manager',function(){
             mockRequest._parsedOriginalUrl = {
                 pathname:"/account/login"
             };
-            var globals = route.request(mockRequest,mockResponse,{});
+            globals = route.request(mockRequest,mockResponse,{});
             chai.expect(globals).to.have.property('loggedInUser');
             //test logout path
             mockRequest._parsedOriginalUrl = {
@@ -68,15 +68,28 @@ describe('router-manager',function(){
 
             };
             mockRequest.logout = function(){};
-            var globals = route.request(mockRequest,mockResponse,{});
+            globals = route.request(mockRequest,mockResponse,{});
             chai.expect(globals).to.have.property('loggedInUser');
             //test
             mockRequest._parsedOriginalUrl = {
                 pathname:"/account/signup"
             };
-            mockRequest.body = {username:"test",password:"test"};
-            var globals = route.request(mockRequest,mockResponse,{});
+            globals = route.request(mockRequest,mockResponse,{});
             chai.expect(globals).to.have.property('loggedInUser');
         });
+        /*//test create using...after need to apply a delete of this test user until then keep commented out.
+        it("router Create User POST to sign up integrated test",function(){
+            var mockResponse = httpMocks.createResponse();
+            var mockRequest =  httpMocks.createRequest({
+                method: 'POST'
+            });
+            mockRequest._parsedOriginalUrl = {
+                pathname:"/account/signup"
+            };
+            mockRequest.body = {userName:"test",userPassword:"test",userEmail:"test@email.com"};
+            var globals = route.request(mockRequest,mockResponse,{});
+            console.log("globals",globals);
+            chai.expect(globals).to.have.property('loggedInUser');
+        });*/
     });
 });

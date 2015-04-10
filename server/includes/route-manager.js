@@ -25,21 +25,21 @@ var routeManager = function(){
         return vars;
     };
     routerManager.requestFilter = function(req,actionObject,actionName){
-        console.log(req.method,"a*************************e", actionObject.action);
+        //console.log(req.method,"a*************************e", actionObject.action);
         switch(req.method){
             //filter other methods, put,delete,opions
             case 'POST':
                     if(!actionObject.acceptPost){
-                        console.log("here it is")
+                        //console.log("here it is")
                         return false;
                     }
                 if(!actionObject.postAction){
                     //the post method is not available
-                    console.log("action name please",actionObject);
+                    //console.log("action name please",actionObject);
                     throw "Controller Action allows post but no method defined "+actionName;
                     return false;
                 } else {
-                    console.log("here it is-switchyyyyyyyyyyyyyyyyyyyyyy")
+                    //console.log("here it is-switchyyyyyyyyyyyyyyyyyyyyyy")
                     actionObject.call = actionObject.postAction;//switch action to post action
                 }
                 break;

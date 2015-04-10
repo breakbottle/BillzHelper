@@ -7,15 +7,18 @@ block main-content
         h2 Create an account
 
         div
-            form.form-group(name="bilSignupFom",novalidate="false")
+            form.form-group(name="bilSignupFom",novalidate="true")
                 .form-group
                     label Email
                     input.form-control(placeholder="Email", ng-model="userEmail",name="userEmail",required="true",type="email")
+                    span(ng-show="bilSignupFom.userEmail.$error.email") Email must be in correct format email@domail.com
                 .form-group
                     label Username
-                    input.form-control(placeholder="Username", ng-model="userName",name="userName",required="true")
+                    input.form-control(placeholder="Username", ng-model="userName",name="userName",required="true",ng-pattern="/^[a-zA-Z0-9\-\_]{8,50}$/")
+                    span(ng-show="bilSignupFom.userName.$error.pattern") Any alphanumeric character at least 8 chars
                 .form-group
                     label Password
-                    input.form-control(type="password",placeholder="password", ng-model="userPassword",name="userPassword",required="true")
+                    input.form-control(type="password",placeholder="password", ng-model="userPassword",name="userPassword",required="true",ng-minlength="8")
+                    span(ng-show="bilSignupFom.userPassword.$error.minlength") Any character at least 8 chars
                 button.btn.btn-primary(ng-click="create(userEmail,userName,userPassword)") Create
 

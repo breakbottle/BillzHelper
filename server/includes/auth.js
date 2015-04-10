@@ -6,48 +6,80 @@
  */
     var userModel = require('../models/user-viewModel');
     var bilUserObject = require('../models/users');
+    var db = require('../db/orm2');
 
 var passport = require('passport'),
     utils = require("./utils"),
     localStrategy = require('passport-local').Strategy;
 
-
+var User = db.define("biluser",{
+    userName         : String,
+    userPassword     : String,
+    userSalt         : String,
+    userEmail        : String,
+    userId          : Number
+});
 passport.use(new localStrategy(
     function(user,pass,done){
-        //here we connect to mysql
-
-        var salt,hash,superadmin;
-        salt = utils.createSalt();
-        hash = utils.hashPassword(salt,pass);
-        superadmin = utils.hashPassword(salt,"clint");
-
-        console.log("this pass ",pass, " for this hash ",hash);
-
-        var bilUser = new bilUserObject("Keilah");
-        bilUser.userId = 1;
-        console.log("what going on",bilUser);
-        if(superadmin == hash){//check for user pass
-            return done(null,bilUser);
-        } else{
-            return done(null,false);
-        }
+        var hash;
+        var anything  = db.driver.execQuery("select userId,userPassword,userSalt from biluser " +
+            "where userName= '"+user+"'",
+            function(err,dbUser){
+                console.log("Select Email Error:",err);
+                console.log("user with that email",dbUser);
+                var person = dbUser[0];
+                hash = utils.hashPassword(person.userSalt,pass);
+                console.log('the hash',hash,dbUser.length);
+                if(dbUser.length >= 1){
+                    if(person.userPassword == hash){
+                        var bilUser = new bilUserObject(user);
+                        bilUser.userId = person.userId;
+                        return done(null,bilUser);
+                    }  else {
+                        return done(null,false);
+                    }
+                } else {
+                    return done(null,false);
+                }
+        });
 
     }
 ));
-var createUser = function(request,done){
-    console.log("what is request",request.body)
+
+var createUser = function(request,callback){
+    //console.log("what is request",request.body)
     var userData = request.body;
     userData.salt = utils.createSalt();
-    userData.salt = utils.hashPassword(userData.salt,userData.userPassword);
-    //request.status(400);
-    //request.send({reason:"no good"});
-    /*var bilUser = new bilUserObject("Keilah");
-    bilUser.userId = 1;*/
-    console.log("user is created",userData);
-return true;//testing...
-    //request.status(400)if fail
-    //auto login-- request.logIn(
-    //return done(null,userData);
+    userData.hashPass = utils.hashPassword(userData.salt,userData.userPassword);
+
+    //"mysql://"+mysql.user+":"+mysql.password+"@"+mysql.host+"/"+mysql.database
+
+    //todo: need to figure out this orm thing. it's putting a default id in my query...want to figure out but will get to it further down building the application.
+    //todo: for now I'll just run an inline query
+     /*User.find({userName:'test'},'userId',function(err,item){
+        console.log("error",err)
+        console.log("item",item)
+    });*/
+    var result = db.driver.execQuery("select userId from biluser where userName= '"+userData.userName+"'",function(err,user){
+        console.log("Select User Error:",err);
+        console.log("Users with that name",user);
+        if(user.length == 0){
+            db.driver.execQuery("select userId from biluser where userEmail= '"+userData.userEmail+"'",function(err,email){
+                console.log("Select Email Error:",err);
+                console.log("user with that email",email);
+                if(email.length == 0){
+                    User.create([
+                        new bilUserObject(userData.userName,userData.hashPass,userData.salt,userData.userEmail)
+                    ],callback);
+                } else {
+                    callback(2,[]);
+                }
+            });
+        } else {
+            callback(1,[]);
+        }
+
+    });
 };
 
 passport.serializeUser(function(user,done){
@@ -57,9 +89,18 @@ passport.serializeUser(function(user,done){
 });
 passport.deserializeUser(function(id,done){
     //lookup user in db
-    var bilUser = new bilUserObject("Keilah");
-    bilUser.userId = 1;
-    done(null,bilUser);//add condition if can't find user rturn done(null,false);
+
+    /*User.get(id,function(err,person){
+        var bilUser = new bilUserObject(person.userName);
+        bilUser.userId = id;
+        done(null,bilUser);
+    });*/
+    db.driver.execQuery("select userId,userName from biluser where userId= '"+id+"'",function(err,person){
+        var bilUser = new bilUserObject(person[0].userName);
+        bilUser.userId = id;
+        done(null,bilUser);
+    });
+   //todo cache this so we're not calling everytime...too many calls to db
 });
 
 module.exports = {

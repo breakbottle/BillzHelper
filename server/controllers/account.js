@@ -20,21 +20,35 @@ var index = function(request,router){//arguments
     router.View(model);
 };
 var signupPOST = function(request,router){
-    var created = serverAuth.createUser(request);
-    if(created){//create.valid bool
-        var bilUser = new bilUserObject("Keilah");
-        bilUser.userId = 1;
+    var createdUser = serverAuth.createUser(request,function(error,user){
+        if(!error){
+        var bilUser = new bilUserObject(user[0].userName);
+        bilUser.userId = user[0].id;
+        bilUser.userEmail = user[0].userEmail;
 
-
+        console.log("whatis the new user",bilUser);
 
         request.logIn(bilUser,function(error){
             if(error) return router.next(error);
         });
         router.JSON(bilUser);
-    } else {
-        router.SendError(500,{reason:"Error creating user"});
-    }
-
+        } else {
+            var clientError;
+            switch(error){
+                case 1:
+                    clientError = "Please choose another username";
+                    break;
+                case 2:
+                    clientError = "Please choose another email";
+                    break;
+                default:
+                    clientError = "There was an error while creating account.";
+                    break;
+            }
+            console.log("Error: ",clientError);
+            router.SendError(500,{reason:clientError});//todo: add config debug..if debug send actual error
+        }
+    });
 };
 var signup = function(request,router){//arguments
     var model =  {
@@ -50,6 +64,7 @@ var signup = function(request,router){//arguments
 
 var login = function(request,router){
     var auth = serverAuth.passport.authenticate('local',function(err,user){
+        console.log('you sent ---------------------->>>>>',user,err)
         if(err) return router.next(err);
         if(!user){
             router.response.send({success:false});

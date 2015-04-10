@@ -9,25 +9,34 @@ body{
 h2{
   font-size: 15px;
  }
-form.ng-submitted{
-  input{
-    &.ng-invalid-required{
-      background-color:$color-error-back;
-    }
-    &.ng-invalid-email{
-      background-color:$color-error-back;
+form{
+  &.ng-submitted{
+    input{
+      &.ng-invalid-required,&.ng-invalid-email{
+        background-color:$color-error-back;
+        +span{
+          //color:$color-error;
+          //display:block;
+        }
+      }
     }
   }
-
+  input{
+    &.ng-dirty.ng-invalid-required,&.ng-invalid-email{
+      background-color:$color-error-back;
+      +span{
+        //color:$color-error;
+        //display:block;
+      }
+    }
+  }
+  span{
+    //display:none;
+    color:$color-error;
+  }
 }
-  input{
-    &.ng-dirty.ng-invalid-required{
-      background-color:$color-error-back;
-    }
-    &.ng-invalid-email{
-      background-color:$color-error-back;
-    }
-  }
+
+
 .appcontent{
  .content{
    margin: 165px auto 10px;
