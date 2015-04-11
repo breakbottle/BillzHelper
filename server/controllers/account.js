@@ -26,8 +26,6 @@ var signupPOST = function(request,router){
         bilUser.userId = user[0].id;
         bilUser.userEmail = user[0].userEmail;
 
-        console.log("whatis the new user",bilUser);
-
         request.logIn(bilUser,function(error){
             if(error) return router.next(error);
         });

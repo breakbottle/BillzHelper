@@ -2,11 +2,11 @@
 .navbar-right(ng-controller="bilLoginCtrl")
     form.navbar-form(ng-hide="identity.isAuthenticated()",name="bilLoginForm",novalidate="false")
         .form-group
-            input.form-control(required="true",placeholder="Username", ng-model="username", name="username")
+            input.form-control(required="true",placeholder="Username", ng-model="username", name="username",tabindex="1")
             div
                 a(href="#",ng-click="singup()") Sign Up
         .form-group
-            input.form-control(required="true",type="password",placeholder="Password", ng-model="password",name="password")
+            input.form-control(required="true",type="password",placeholder="Password", ng-model="password",name="password",tabindex="2")
             div
                 a(href="/") Forgot?
         .form-group

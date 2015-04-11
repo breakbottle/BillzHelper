@@ -19,7 +19,8 @@ html
                         div.logo-title=siteName
                             span.logo-subtitle=siteVersion
                     button.btn.btn-primary.navbar-bt.pull-right.login-btn.visible-xs(type="button",ng-hide="identity.isAuthenticated()") Login
-                    div(ng-include="'/partials/account/navbar-login'").pull-right.hidden-xs
+                    if pageCss != '404'
+                        div(ng-include="'/partials/account/navbar-login'").pull-right.hidden-xs
                     .navbar.navbar-default.main-menu-bar(ng-show="identity.isAuthenticated()")
                         .container-fluid
                             button.navbar-toggle.collapsed.menu-button(type="button",data-toggle="collapse",data-target="#main-menu")
@@ -30,11 +31,11 @@ html
                             .collapse.navbar-collapse(id="main-menu")
                                 ul.nav.navbar-nav
                                     li
-                                        a(href="",data-toggle="collapse",data-target="#main-menu") Home
+                                        a(ui-sref="/",data-toggle="collapse",data-target="#main-menu") Home
                                     if  pageMenus
                                         for item in pageMenus
                                             li
-                                                a(href=item.url)=item.text
+                                                a(ui-sref=item.url)=item.text
 
         block main-content
         hr

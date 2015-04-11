@@ -9,6 +9,9 @@ body{
 h2{
   font-size: 15px;
  }
+  a{//some a tags are using directives which sometimes don't render href visible to browser hence pointer is not shown...force it to show aon all a tag...except anchors
+    cursor :pointer;
+  }
 form{
   &.ng-submitted{
     input{

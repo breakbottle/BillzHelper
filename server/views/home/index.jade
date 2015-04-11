@@ -2,7 +2,7 @@ extends ../shared/layout
 
 block main-content
     section.content(ng-controller="bilHomeCtrl")
-        div(ng-view)
+        div(ui-view)
         div.hero-text.well(ng-hide="identity.isAuthenticated()")
             if model
                 b=model.heroTextTop

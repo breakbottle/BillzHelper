@@ -6,4 +6,5 @@
  */
 application.controller('bilHomeCtrl',function($scope,bilIdentity){
     $scope.identity = bilIdentity;
+    //alert("loaded")
 });

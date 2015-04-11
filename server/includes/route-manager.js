@@ -65,13 +65,15 @@ var routeManager = function(){
             var autoView  = routeVars.controller+"/"+routeVars.controllerAction;
             var routeGlobals = {
                 loggedInUser: req.user,//todo:hmmm?
-                clientSideLogging :configs.clientSideLogging,
-                pageCss: routeVars.controller+"/"+(routeVars.controllerAction||configs.defaultControllerView)
+                clientSideLogging :configs.clientSideLogging
+                //pageCss: routeVars.controller+"/"+(routeVars.controllerAction||configs.defaultControllerView)
             };
             var all = extend(routeGlobals, siteGlobals);
             isActionCallable.call(req,{
                 View:function(object,view){
-                    res.render(view || autoView, extend(object || {},all)||all);
+                    all.pageCss = routeVars.controller+"/"+(routeVars.controllerAction||configs.defaultControllerView);//auto route to css
+                    var model = extend(all,object || {})||all;//last object overrides, so object/model overrides all if prop are the same
+                    res.render(view || autoView, model);
                 },
                 JSON:function(object){
                     res.send(object);

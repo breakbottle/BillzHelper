@@ -13,7 +13,7 @@ var index = function(request,router){//arguments
                 heroTextTop:"A tool that helps you keep track of your bills.",//this text should be random
                 heroTextBottom:"Reminders to pay your bills on time"//this text should be random
             },
-            pageMenus: [new menuItem("shante","/clint"),new menuItem("Clint","/clint")]
+            pageMenus: [new menuItem("shante","/home"),new menuItem("Clint","signup")]
         };
     router.View(model);
 };

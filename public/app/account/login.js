@@ -4,7 +4,7 @@
  * Time: 5:47 PM
  * Description:
  */
-application.controller('bilLoginCtrl',function($scope,bilAuth,bilAlerts,bilIdentity,$location){
+application.controller('bilLoginCtrl',function($scope,bilAuth,bilAlerts,bilIdentity,bilLocation){
     $scope.identity = bilIdentity;
 
     var resetUser = function(){
@@ -30,11 +30,11 @@ application.controller('bilLoginCtrl',function($scope,bilAuth,bilAlerts,bilIdent
         bilAuth.logoutUser().then(function(){
             resetUser();
             bilAlerts.notify("you out");
-            $location.path('/');
+            bilLocation('/',true);
         });
     };
     $scope.singup = function(){
-      location.href = "/account/signup";
+        bilLocation("/account/signup",true);
     };
 
 });
