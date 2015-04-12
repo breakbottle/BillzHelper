@@ -1,0 +1,8 @@
+//Created by Clint Small Cain on 4/12/2015.
+
+extends ../shared/layout
+block main-content
+
+    section.content.well(ng-controlle="bilBillsCtrl",ng-hide="identity.isAuthenticated()")
+        h1 Bills To Pay
+        h2 View all your bills to be paid

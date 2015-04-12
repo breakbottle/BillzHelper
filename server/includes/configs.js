@@ -35,7 +35,8 @@ var configs = {
     },
     controllers:[
         new routeItem("home",["/"]),
-        new routeItem("account",["/acct"])
+        new routeItem("account",["/acct"]),
+        new routeItem("bills",["/bills"])
     ],
     inController:function(route){
         for(var i =0; i < configs.controllers.length;i++){

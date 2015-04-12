@@ -36,5 +36,7 @@ application.config(function($stateProvider,$urlRouterProvider){
     }).state('signup',{
             url:'/account/signup',
             controller:'bilSignupCtrl'
+    }).state('bills',{
+            url:'/bills'
         })
 });
