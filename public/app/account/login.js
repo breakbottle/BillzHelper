@@ -4,7 +4,7 @@
  * Time: 5:47 PM
  * Description:
  */
-application.controller('bilLoginCtrl',function($scope,bilAuth,bilAlerts,bilIdentity,bilLocation){
+application.controller('bilLoginCtrl',function($scope,bilAuth,bilAlerts,bilIdentity,bilLocation,$location){
     $scope.identity = bilIdentity;
 
     var resetUser = function(){
@@ -17,9 +17,10 @@ application.controller('bilLoginCtrl',function($scope,bilAuth,bilAlerts,bilIdent
             bilAuth.authenticatedUser(username,password).then(function(success){
 
                 if(success){
-                    bilAlerts.notify("you in");
+                    bilAlerts.notify("Login Successful");
+                    bilLocation.path('/');
                 } else {
-                    bilAlerts.error("you fail")
+                    bilAlerts.error("There were errors trying to log you in!")
                 }
             });
         } else {
@@ -30,11 +31,11 @@ application.controller('bilLoginCtrl',function($scope,bilAuth,bilAlerts,bilIdent
         bilAuth.logoutUser().then(function(){
             resetUser();
             bilAlerts.notify("you out");
-            bilLocation('/',true);
+            bilLocation.path('/',true);
         });
     };
     $scope.singup = function(){
-        bilLocation("/account/signup",true);
+        bilLocation.path("/account/signup",true);
     };
 
 });

@@ -5,11 +5,27 @@
  * Description:
  */
 application.factory('bilLocation',function($location,bilDebug){
-    return function(path,newspa){
+    var path =  function(path,newspa){
+
         if(newspa){
             location.href=path;
         } else {
-            $location.path(path);
+            if($location.$$path == spaPath()){
+                $location.path(path);
+            } else {
+                location.href=spaPath()+'/#'+path;
+            }
+
         }
+    };
+    var spaPath = function(){
+      var location = $location.$$absUrl;
+      var spaPath = location.replace($location.$$protocol+'://'+$location.$$host+(($location.$$port)?':'+$location.$$port:''),'').split('#');
+      return spaPath[0];
+    };
+
+    return {
+        path:path,
+        spaPath:spaPath
     }
 });

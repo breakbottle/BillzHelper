@@ -6,7 +6,7 @@
  */
 application.controller('bilSignupCtrl',function(bilDebug,$scope,bilIdentity,bilAlerts,bilAuth,bilLocation){
     if(bilIdentity.isAuthenticated()){ 
-        bilLocation("/",true);
+        bilLocation.path("/",true);
     }
 
     $scope.identity = bilIdentity;
@@ -17,7 +17,7 @@ application.controller('bilSignupCtrl',function(bilDebug,$scope,bilIdentity,bilA
         if(this.bilSignupFom.$valid){
             bilAuth.signUpUser(userEmail,userName,userPassword).then(function(success){
                 bilAlerts.notify('account was good');
-                bilLocation("/",true);
+                bilLocation.path("/",true);
             },function(reason){
                 bilAlerts.error(reason);
             });
