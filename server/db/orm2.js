@@ -6,8 +6,7 @@
  */
 var mysql = require('./mysql');
 var orm = require('orm');
-console.log('Database Connection Started..................++++++++++++>>>');
-debugger;
+
 module.exports  = orm.connect({
     host     : mysql.host,
     user     : mysql.user,
@@ -17,6 +16,4 @@ module.exports  = orm.connect({
     //socketPath: '/var/run/mysqld/mysqld.sock',
     port:     '3306',
     query:    {pool: true, debug: true}
-},function(err,db) {
-    if (err) throw err;
 });

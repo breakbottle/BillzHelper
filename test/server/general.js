@@ -47,8 +47,8 @@ describe("General Test",function(){
             mockRequest.body.userName = 'randomUserNEW-'+Math.random();
             mockRequest.body.userEmail = 'randomUserNEW-'+Math.random();
             var mockCallbackCreated = function(error,user){
-                userIdToDelete = user[0].id;
-                chai.expect(user[0].id).to.be.above(0);
+                userIdToDelete = user[0].userId;
+                chai.expect(user[0].userId).to.be.above(0);
                 done();
             };
             accountManager.createUser(mockRequest,mockCallbackCreated);
