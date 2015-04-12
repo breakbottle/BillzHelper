@@ -6,6 +6,8 @@
  */
 var mysql = require('./mysql');
 var orm = require('orm');
+console.log('Database Connection Started..................++++++++++++>>>');
+debugger;
 module.exports  = orm.connect({
     host     : mysql.host,
     user     : mysql.user,

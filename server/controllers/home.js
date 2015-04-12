@@ -7,6 +7,8 @@
 var menuItem = require('../models/menu-item');
 var action = require('../models/controller-action');
 var index = function(request,router){//arguments
+
+    console.log("whta is session................",request.session)
    var model =  {
        pageTitle:"Welcome to "+router.globals.siteName,
             model:{

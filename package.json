@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "chai": "^2.1.2",
+    "chai-as-promised": "^4.3.0",
     "express-mock-request": "0.0.2",
     "gulp": "^3.8.11",
     "gulp-load-plugins": "^0.9.0",

@@ -7,6 +7,9 @@
 var menuItem = require('../models/menu-item');
 var action = require('../models/controller-action');
 var serverAuth = require('../includes/auth');
+var accountManager = require('../includes/account-manager');
+var clientErrors = require('../includes/client-errors');
+var eClientErrors = require('../enums/client-error-enums');
 var bilUserObject = require('../models/users');
 var index = function(request,router){//arguments
     var model =  {
@@ -20,7 +23,7 @@ var index = function(request,router){//arguments
     router.View(model);
 };
 var signupPOST = function(request,router){
-    var createdUser = serverAuth.createUser(request,function(error,user){
+    var createdUser = accountManager.createUser(request,function(error,user){
         if(!error){
         var bilUser = new bilUserObject(user[0].userName);
         bilUser.userId = user[0].id;
@@ -33,17 +36,17 @@ var signupPOST = function(request,router){
         } else {
             var clientError;
             switch(error){
-                case 1:
-                    clientError = "Please choose another username";
+                case eClientErrors.userNameExistsError:
+                    clientError = clientErrors[eClientErrors.userNameExistsError];
                     break;
-                case 2:
-                    clientError = "Please choose another email";
+                case eClientErrors.userEmailExistsError:
+                    clientError = clientErrors[eClientErrors.userNameExistsError];
                     break;
                 default:
-                    clientError = "There was an error while creating account.";
+                    clientError = clientErrors[eClientErrors.defaultSignUpError];
                     break;
             }
-            console.log("Error: ",clientError);
+            console.log("Error:  ",clientError);
             router.SendError(500,{reason:clientError});//todo: add config debug..if debug send actual error
         }
     });
