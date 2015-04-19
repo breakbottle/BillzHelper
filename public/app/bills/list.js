@@ -72,10 +72,28 @@ application.controller('bilListCtrl',function($scope,$sce,bilAlerts,$http,bilIde
         this.bill.processing = !this.bill.processing;//This is to toggle show /hide item.
     };
     $scope.confirm = function(){
-        //todo: make request to server to actually process bill
-        bilAlerts.notify("Bill has been processed successfully!");
-        $scope.processPay.call(this);//show ..show item
-        $scope.showItem.call(this);//hide item
+        var data = {
+            amountPaid:this.confirmBill.amountPaid.$viewValue,
+            confirmation:this.confirmBill.confirmation.$viewValue,
+            adjustBalance:this.confirmBill.adjustBalance.$viewValue,
+            creditorId:this.bill.creditorId
+        };
+        var controllerScope = this;
+        $http.post('/bills/list/'+this.bill.itemID,data).then(function(response){
+            if(response.data){
+                if(response.data.success){
+                    bilAlerts.notify("Bill has been processed successfully!");
+                    $scope.processPay.call(controllerScope);//show ..show item
+                    $scope.showItem.call(controllerScope);//hide item
+                } else {
+                    bilAlerts.error("Error: Bill was not processed!");
+                }
+            } else {
+                bilAlerts.error("something went wrong!!");
+            }
+        },function(){
+            bilAlerts.error("Failed: something went wrong!!");
+        });
     };
 }).directive('billItem',function(){
 

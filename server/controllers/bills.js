@@ -35,16 +35,46 @@ var list = function(request,router){
 };
 var listWithKey = function(request,router){
     var itemId = this.controllerActionKey;
-    queryFile('./server/db/queries/qf-item.sql').then(function(data){
-        data = data.replace('[itemId]',itemId);
-        return queryFile(data,'query');
-    },function(fail){
-        console.log('Put Error message here get file error',fail);
-    }).then(function(data){
-        router.response.send({billsInformation:data});
-    },function(fail){
-        console.log('Put Error message here, query errror',fail);
-    });
+    if(request.body.amountPaid){
+        queryFile('./server/db/queries/qf-update-item.sql').then(function(data){
+            data = data.replace('[itemId]',itemId);
+            data = data.replace('[amountPaid]',request.body.amountPaid);
+            data = data.replace('[confirmation]',(request.body.confirmation?request.body.confirmation:''));
+
+            return queryFile(data,'query');
+        },function(fail){
+            console.log('getting file to update bill failed',fail);
+        }).then(function(data){
+            console.log("the data",data)
+            if(data){
+               //once query passed  -  router.response.send({success:true});
+               return queryFile('./server/db/queries/qf-update-creditor.sql').then(function(fdata){
+                   fdata = fdata.replace('[creditorId]',request.body.creditorId);
+                   fdata =fdata.replace('[adjustBalance]',request.body.adjustBalance);
+                   return queryFile(fdata,'query');
+               })
+            }
+
+        },function(fail){
+            console.log('query to update bill failed',fail);
+        }).then(function(success){
+            if(success){
+                router.response.send({success:true});
+            }
+        });
+    } else {
+        queryFile('./server/db/queries/qf-item.sql').then(function(data){
+            data = data.replace('[itemId]',itemId);
+            return queryFile(data,'query');
+        },function(fail){
+            console.log('Put Error message here get file error',fail);
+        }).then(function(data){
+            router.response.send({billsInformation:data});
+        },function(fail){
+            console.log('Put Error message here, query errror',fail);
+        });
+    }
+
 
 
 };

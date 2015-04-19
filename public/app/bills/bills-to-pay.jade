@@ -11,7 +11,7 @@ table.table.table-striped.table-hover(id="bills-to-pay")
         tr(ng-repeat="bill in bills",ng-class="{danger:billAlert(bill.due_date)}")
             td.action-content
                 div.btn.creditor-title
-                    div.label.label-info(ng-show="bill.auto") Automatic Payment &nbsp;
+                    div.label.label-info(ng-show="bill.auto") Auto &nbsp;
                         span.glyphicon.glyphicon-refresh
                     | &nbsp; {{bill.creditor}}
                 button.btn.btn-sm.pull-right(ng-click="showItem(bill.itemID)",ng-class="{'btn-info':bill.active,'btn-default':!bill.active}",ng-show="bill.amt_due && bill.creditor")

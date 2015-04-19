@@ -1,0 +1,1 @@
+update bill_creditors set balance ='[adjustBalance]' where id='[creditorId]';

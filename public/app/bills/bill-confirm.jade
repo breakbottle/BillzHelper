@@ -9,20 +9,20 @@ div
         span.glyphicon.glyphicon-ok
 
     div
-        form(name="confirm-bill")
+        form(name="confirmBill")
             div.form-group
                 label Confirmation #
                 div.input-group
                     div.input-group-addon #
-                    input.form-control
+                    input.form-control(name="confirmation",ng-model="confirmation")
             div.form-group
                 label Amount Paid
                 div.input-group
                     div.input-group-addon $
-                    input.form-control(ng-model="bill.amt_due")
+                    input.form-control(ng-model="bill.amt_due",name="amountPaid")
             div.form-group
                 label Adjust Balance
                 div.input-group
                     div.input-group-addon $
-                    input.form-control(ng-model="currentItem.itemValues.balance")
+                    input.form-control(ng-model="currentItem.itemValues.balance",name="adjustBalance")
             button.btn.btn-primary.pull-right(ng-click="confirm()") Confirm
