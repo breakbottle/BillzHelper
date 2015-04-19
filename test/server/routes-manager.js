@@ -40,7 +40,7 @@ describe('router-manager',function(){
             chai.expect(route.testable.requestFilter({method:'POST'},action(function(){},true).post(function(){}))).to.be.true;
         });
         it('Request Method GET on action should accept get',function(){
-            chai.expect(route.testable.requestFilter({method:'GET'},action(function(){},true,false))).to.be.true;
+            chai.expect(route.testable.requestFilter({method:'GET'},action(function(){},true,true))).to.be.true;
         });
     });
     describe('routing',function(){

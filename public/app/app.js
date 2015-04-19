@@ -4,7 +4,7 @@
  * Time: 8:52 AM
  * Description:
  */
-angular.module('app',['ngResource','ui.router']);
+angular.module('app',['ngResource','ui.router','ngGrid']);
 var application = angular.module('app');
 /*
 application.config(function($routeProvider,$locationProvider){
@@ -26,17 +26,18 @@ application.config(function($stateProvider,$urlRouterProvider){
 
     // For any unmatched url, redirect to /state1
     //$urlRouterProvider.when("/a566","/account/signup");
-
+    console.log("oooohyyy",$urlRouterProvider)
     $urlRouterProvider.otherwise("/");
     $stateProvider
     .state('/',{
         url:'/',
-        templateUrl: '/partials/home/home',
+        //templateUrl: '/partials/home/home',
         controller:'bilHomeCtrl'
     }).state('signup',{
-            url:'/account/signup',
-            controller:'bilSignupCtrl'
+        url:'/account/signup',
+        controller:'bilSignupCtrl'
     }).state('bills',{
-            url:'/bills'
-        })
+            url:'/list/:itemId',
+        templateUrl: '/partials/bills/bills-to-pay'
+    })
 });

@@ -7,6 +7,7 @@
 var configs = require('./configs');
 var routeVars = require('../models/route-vars');
 var extend = require('util')._extend;
+
 var routeManager = function(){
     var routerManager = this;
     routerManager.displayError =  'The page your are looking for cannot be found.';
@@ -15,6 +16,7 @@ var routeManager = function(){
         var getActions = request._parsedOriginalUrl.pathname.split("/");
         vars.controller = getActions[1] || configs.defaultController;
         vars.controllerAction = getActions[2] || "";
+        vars.controllerActionKey = getActions[3] || "";
         for (var i = 0; i < configs.controllers.length; i++) {
             //only load request name
             if (vars.controller == configs.controllers[i].name) {
@@ -25,12 +27,10 @@ var routeManager = function(){
         return vars;
     };
     routerManager.requestFilter = function(req,actionObject,actionName){
-        //console.log(req.method,"a*************************e", actionObject.action);
         switch(req.method){
-            //filter other methods, put,delete,opions
+            //filter other methods, put,delete,options
             case 'POST':
                     if(!actionObject.acceptPost){
-                        //console.log("here it is")
                         return false;
                     }
                 if(!actionObject.postAction){
@@ -39,13 +39,12 @@ var routeManager = function(){
                     throw "Controller Action allows post but no method defined "+actionName;
                     return false;
                 } else {
-                    //console.log("here it is-switchyyyyyyyyyyyyyyyyyyyyyy")
-                    actionObject.call = actionObject.postAction;//switch action to post action
+                    actionObject.action = actionObject.postAction;//switch action to post action
                 }
                 break;
             default:
-                if(actionObject.action != actionObject.call){ console.log("reeeeeeeeeeeees")
-                    actionObject.call = actionObject.action;//reset
+                if(actionObject.actionMain != actionObject.action){
+                    actionObject.action = actionObject.actionMain;//reset
                 }
 
                 if(!actionObject.acceptGet){
@@ -57,8 +56,12 @@ var routeManager = function(){
     };
     routerManager.routing = function(req, res, next){
         var routeVars = routerManager.routeVars(req);
-        //console.log("touer",routeVars)
+
         var isActionCallable = routeVars.instance[routeVars.controllerAction||configs.defaultControllerView];
+        if(routeVars.controllerActionKey){
+            isActionCallable = routeVars.instance[routeVars.controllerAction+"WithKey"];
+            routeVars.controllerAction = routeVars.controllerAction+"WithKey";
+        }
         var siteGlobals = extend(configs.globals,configs.clientGlobals);
         if (routeVars.index != null && isActionCallable && routerManager.requestFilter(req,isActionCallable,routeVars.controllerAction)) {
 
@@ -66,10 +69,9 @@ var routeManager = function(){
             var routeGlobals = {
                 loggedInUser: req.user,//todo:hmmm?
                 clientSideLogging :configs.clientSideLogging
-                //pageCss: routeVars.controller+"/"+(routeVars.controllerAction||configs.defaultControllerView)
             };
             var all = extend(routeGlobals, siteGlobals);
-            isActionCallable.call(req,{
+            isActionCallable.action.call(routeVars,req,{
                 View:function(object,view){
                     all.pageCss = routeVars.controller+"/"+(routeVars.controllerAction||configs.defaultControllerView);//auto route to css
                     var model = extend(all,object || {})||all;//last object overrides, so object/model overrides all if prop are the same
@@ -104,7 +106,6 @@ var routeManager = function(){
         }
     };
     routerManager.abstractActions = function(objectOfActions){
-
     };
     var request = routerManager.routing;
     var fullRoute = function (app, routePath) {
@@ -121,11 +122,10 @@ var routeManager = function(){
 
     };
 
-
     return {
         request: request,
         fullRoute: fullRoute,
         testable:routerManager
     };
-}
+};
 module.exports = routeManager();

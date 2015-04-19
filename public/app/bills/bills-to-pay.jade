@@ -1,0 +1,28 @@
+//Created by Clint Small Cain on 4/14/2015.
+
+div(ng-show="isLoading") Loading....
+table.table.table-striped.table-hover(id="bills-to-pay")
+    thead
+        tr(class="info")
+            th(style="width:50%;min-width:300px") Creditor
+            th.hidden-xs(style="width:20%") Amount Due
+            th.hidden-xs(style="width:30%") Due Date
+    tbody
+        tr(ng-repeat="bill in bills",ng-class="{danger:billAlert(bill.due_date)}")
+            td.action-content
+                div.btn.creditor-title
+                    div.label.label-info(ng-show="bill.auto") Automatic Payment &nbsp;
+                        span.glyphicon.glyphicon-refresh
+                    | &nbsp; {{bill.creditor}}
+                button.btn.btn-sm.pull-right(ng-click="showItem(bill.itemID)",ng-class="{'btn-info':bill.active,'btn-default':!bill.active}",ng-show="bill.amt_due && bill.creditor")
+                    span.glyphicon.glyphicon-flash
+                    | Process
+                div.action-content-wrap(ng-class="{closed:!bill.active}")
+                    div.well.bill-item(ng-class="{left:(bill.processing && bill.active),reset:!bill.processing}")
+                    div.well.bill-confirm.right(ng-class="{reset:bill.processing}")
+
+
+            td.hidden-xs
+                span(ng-show="bill.amt_due") ${{bill.amt_due}}
+            td.hidden-xs {{bill.due_date | date : 'medium'}}
+

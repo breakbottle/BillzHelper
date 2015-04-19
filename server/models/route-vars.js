@@ -9,6 +9,7 @@ module.exports = function(instance,index){
     return {
         controller:"",
         controllerAction:"",
+        controllerActionKey:"",
         instance:instance || {},
         index:index || 0
 

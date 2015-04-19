@@ -6,7 +6,7 @@
  */
     var userModel = require('../models/user-viewModel');
     var bilUserObject = require('../models/users');
-    var db = require('../db/orm2'),
+    var db = require('../db/orm2').connect,
         passport = require('passport'),
     utils = require("./utils"),
     localStrategy = require('passport-local').Strategy;

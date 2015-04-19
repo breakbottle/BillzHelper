@@ -7,15 +7,15 @@
 module.exports = function(action,acceptPost,acceptGet){
 
     var defaultAP = acceptPost || false;
-    var defaultAG = (!acceptGet)?true:acceptGet;
+    var defaultAG = (acceptGet == undefined)?true:acceptGet;
 
     return {
-        action:action,
+        action:action,//the action that will be called, can be changed by post
+        actionMain:action,//holder for default action
         postAction:null,
         //put//delete
         acceptPost:defaultAP,
         acceptGet:defaultAG,
-        call:action,//used to call the action
         post:function(post){
             this.postAction = post;
             return this;

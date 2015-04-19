@@ -7,6 +7,7 @@
 application.controller('bilSignupCtrl',function(bilDebug,$scope,bilIdentity,bilAlerts,bilAuth,bilLocation){
     if(bilIdentity.isAuthenticated()){ 
         bilLocation.path("/",true);
+        return;
     }
 
     $scope.identity = bilIdentity;

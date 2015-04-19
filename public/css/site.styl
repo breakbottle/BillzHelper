@@ -2,6 +2,8 @@
 
 body{
   background-color:$color-light-one;
+  background-image:url(http://static2.grsites.com/archive/textures/misc/misc280.jpg);
+
 }
  h1{
    font-size: 25px;
@@ -39,12 +41,41 @@ form{
   }
 }
 
+.main-menu-bar{
+  border-color:$color-one;
+  background-color:($color-one + 150);
+  ul.nav{
+    > li{
+      > a{
+        color:$color-one;
+        font-weight:bold;
+        text-transform:uppercase;
+      }
+
+    }
+  }
+
+}
+  //bootstrap global overrides - don't want to change the less, only making minor changes.
+.well{
+  border-color:$color-one;
+}
+.btn-default {
+  color: #FFF;
+  background-color: #C5C0C0;
+  border-color: #838181;
+}
+.btn-nopadding{
+  padding:0 15px;
+}
+  //end bootstrap
 
 .appcontent{
  .content{
    margin: 165px auto 10px;
    width: 85%;
    padding: 0 20px;
+   background-color:$color-two;
  }
 .navbar.navbar-main{
   background-color:$color-two;
@@ -94,14 +125,38 @@ form{
       }
 }
 //media queries
-$bootstrapXsmall = 768px;
-$bootstrapMedium = 992px;
-$bootstrapLarge = 1200px;
+
 @media (max-width: $bootstrapXsmall) {
   //main menu
+.main-menu-bar{
+  button.menu-button{
+    border: 0;
+    background:none;
+    &:hover{
+      background:none;
+      color:$color-light;
+    }
+  }
   #main-menu{
     position: absolute;
     top: 50px;
+    background-color:$color-two;
+    border-radius:5px;
+    border:1px solid $color-one;
+    > ul > li:active{
+      background-color:$color-one;
+      color:$color-light;
+      a{
+        color:$color-light;
+      }
+    }
+  }
+}
+
+  .appcontent{
+    .content{
+      width:100%;
+    }
   }
 }
 @media (min-width: $bootstrapXsmall) {

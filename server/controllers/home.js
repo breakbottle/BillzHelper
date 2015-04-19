@@ -6,14 +6,14 @@
  */
 var loggedInMenu = require('../includes/logged-in-menu');
 var action = require('../models/controller-action');
-var index = function(request,router){//arguments
+var index = function(request,router){//
    var model =  {
        pageTitle:"Welcome to "+router.globals.siteName,
             model:{
                 heroTextTop:"A tool that helps you keep track of your bills.",//this text should be random
                 heroTextBottom:"Reminders to pay your bills on time"//this text should be random
             },
-            pageMenus:(request.isAuthenticated())?loggedInMenu:[]
+            pageMenus:loggedInMenu
         };
     router.View(model);
 };

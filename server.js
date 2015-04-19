@@ -15,7 +15,7 @@ var express = require('express'),
     configs = require('./server/includes/configs'),
     route = require('./server/includes/route-manager');
 var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
-
+var nomo = require('node-monkey').start();//for client browser debugging
 var app = express();
 
 function compile(str,path){

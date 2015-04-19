@@ -8,6 +8,7 @@ var chai = require('chai');
 var httpMocks = require('node-mocks-http');
 var mocks = require('mock-request');
 
+
 describe("General Test",function(){
     describe('CreateUser',function(){
         var accountManager,clientError,eClientError,mockResponse,mockRequest,db;
@@ -16,7 +17,7 @@ describe("General Test",function(){
             accountManager = require(__cwd+'/server/includes/account-manager');
             clientError = require(__cwd+'/server/includes/client-errors');
             eClientError = require(__cwd+'/server/enums/client-error-enums');
-            db = require(__cwd+'/server/db/orm2');//get connections
+            db = require(__cwd+'/server/db/orm2').connect;//get connections
             mockResponse = httpMocks.createResponse();
             mockRequest =  httpMocks.createRequest({
                 method: 'POST'

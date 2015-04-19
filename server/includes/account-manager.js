@@ -6,7 +6,7 @@
  */
 var bilUserObject = require('../models/users');
 //var bilUser = require('../models/db/biluser');
-var db = require('../db/orm2');
+var db = require('../db/orm2').connect;
 var utils = require("./utils");
 var eClientErrors = require('../enums/client-error-enums');
 
@@ -17,8 +17,6 @@ var createUser = function(request,callback){
     userData.hashPass = utils.hashPassword(userData.salt,userData.userPassword);
 
     db.models.biluser.exists({userName:userData.userName},function(err,userExists){
-     //console.log("error____________>",err)
-     //console.log("userExists===================>>",userExists)
         if(!userExists){
             //separate queries so that we can have separate errors.
             db.models.biluser.exists({userEmail:userData.userEmail},function(err,emailExists){

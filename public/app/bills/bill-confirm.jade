@@ -1,0 +1,28 @@
+//Created by Clint Small Cain on 4/18/2015.
+div
+    button.btn.btn-default(ng-click="processPay()")
+        span.glyphicon.glyphicon-chevron-left
+        | Back
+    br
+    br
+    div.alert.alert-success Payment Confirmation &nbsp;
+        span.glyphicon.glyphicon-ok
+
+    div
+        form(name="confirm-bill")
+            div.form-group
+                label Confirmation #
+                div.input-group
+                    div.input-group-addon #
+                    input.form-control
+            div.form-group
+                label Amount Paid
+                div.input-group
+                    div.input-group-addon $
+                    input.form-control(ng-model="bill.amt_due")
+            div.form-group
+                label Adjust Balance
+                div.input-group
+                    div.input-group-addon $
+                    input.form-control(ng-model="currentItem.itemValues.balance")
+            button.btn.btn-primary.pull-right(ng-click="confirm()") Confirm

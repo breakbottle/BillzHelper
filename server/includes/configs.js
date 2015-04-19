@@ -25,7 +25,7 @@ var configs = {
     defaultController:"home",
     defaultControllerView:"index",
     globals:{
-        mysql:mysql//,
+        //mysql:mysql//,
         //mongodb:mongodb
     },
     clientGlobals:{

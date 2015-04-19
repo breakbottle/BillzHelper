@@ -3,6 +3,7 @@
 extends ../shared/layout
 block main-content
 
-    section.content.well(ng-controlle="bilBillsCtrl",ng-hide="identity.isAuthenticated()")
+    section.content.well(ng-controller="bilListCtrl",ng-hide="identity.isAuthenticated()")
         h1 Bills To Pay
         h2 View all your bills to be paid
+        div(ui-view)

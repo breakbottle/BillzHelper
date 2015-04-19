@@ -6,9 +6,11 @@ html
         link(href="/favicon.ico",rel="shortcut icon", type="image/x-icon")
         link(rel="stylesheet", href="/vendor/bootstrap/dist/css/bootstrap.css", type="text/css")
         link(rel="stylesheet", href="/vendor/toastr/toastr.css", type="text/css")
+        link(rel="stylesheet", href="/vendor/ng-grid/ng-grid.css", type="text/css")
         link(rel="stylesheet", href="/css/site.css", type="text/css")
         link(rel="stylesheet", href="/css/"+pageCss+".css", type="text/css")
         base(href="/")
+        meta(name="viewport",content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0")
     body(ng-app='app').appcontent
         include currentUser
         .navbar.navbar-default.navbar-fixed-top.navbar-main(ng-controller="bilHeadCtrl")

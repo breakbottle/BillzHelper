@@ -1,0 +1,22 @@
+//Created by Clint Small Cain on 4/16/2015.
+
+div {{bill.creditor}}
+    div.alert.alert-info ${{bill.amt_due}} on {{bill.due_date | date : 'medium'}}
+    div(ng-class="{'btn-group':currentItem.itemValues.website}")
+        button.btn.btn-warning(ng-click="processPay()") Paid &nbsp;
+            span.glyphicon.glyphicon-check
+        a.btn.btn-success(target="_blank",ng-href="{{currentItem.itemValues.website}}",ng-show="currentItem.itemValues.website") Pay Online Now! &nbsp;
+            span.glyphicon.glyphicon-new-window
+    div.bg-info.bill-details
+        strong Bill Information
+        hr
+        div.clearfix
+            div.pull-left Minimum Payment
+            div.pull-right ${{currentItem.itemValues.min_payments}}
+        div.clearfix(ng-show="parseInt(currentItem.itemValues.balance)")
+            div.pull-left Balance
+            div.pull-right ${{currentItem.itemValues.balance}}
+        div.clearfix
+            div.pull-left.panel Notes
+            div.well
+                span(ng-bind-html="trustAsHtml(currentItem.itemValues.contact)")
