@@ -8,13 +8,13 @@ table.table.table-striped.table-hover(id="bills-to-pay")
             th.hidden-xs(style="width:20%") Amount Due
             th.hidden-xs(style="width:30%") Due Date
     tbody
-        tr(ng-repeat="bill in bills",ng-class="{danger:billAlert(bill.due_date)}")
+        tr(ng-repeat="bill in bills",ng-class="{danger:billAlert(bill.due_date),focus:bill.rowType}")
             td.action-content
                 div.btn.creditor-title
                     div.label.label-info(ng-show="bill.auto") Auto &nbsp;
                         span.glyphicon.glyphicon-refresh
                     | &nbsp; {{bill.creditor}}
-                button.btn.btn-sm.pull-right(ng-click="showItem(bill.itemID)",ng-class="{'btn-info':bill.active,'btn-default':!bill.active}",ng-show="bill.amt_due && bill.creditor")
+                button.btn.btn-sm.pull-right(ng-click="showItem(bill.itemID)",ng-class="{'btn-info':bill.active,'btn-default':!bill.active}",ng-show="bill.amt_due && bill.creditor && !bill.rowType")
                     span.glyphicon.glyphicon-flash
                     | Process
                 div.action-content-wrap(ng-class="{closed:!bill.active}")
