@@ -47,8 +47,27 @@ var execQueryFile  = function(actionData,action){
             break;
     }
 };
-
+var qfQuery = function(file,callback,fields){
+    execQueryFile('./server/db/queries/'+file+'.sql').then(function(data){
+        if(fields){
+            //is an array
+            if(fields.length){
+                for(var i=0;i < fields.length;i++){
+                    data = data.replace('['+fields[i].key+']',fields[i].value);
+                }
+            }
+        }
+        return execQueryFile(data,'query');
+    },function(fail){
+        callback(fail,null);
+    }).then(function(data){
+        callback(null,data);
+    },function(fail){
+        callback(fail,null);
+    });
+};
 module.exports  ={
     connect: connection,
-    queryFile: execQueryFile
+    queryFile: execQueryFile,
+    qfQuery:qfQuery
 };

@@ -1,0 +1,1 @@
+update billmgr set paid='[paid]',balance ='[creditorId]',con_code ='[confirmationCode]',amt_paid='[amountDue]' where id='[itemId]';

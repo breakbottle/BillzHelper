@@ -1,0 +1,1 @@
+delete from  billmgr where id='[billId]'

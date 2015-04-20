@@ -6,6 +6,7 @@
  */
 var loggedInMenu = require('../includes/logged-in-menu');
 var action = require('../models/controller-action');
+var billManager = require('../includes/bill-manager');
 var queryFile = require('../db/orm2').queryFile;
 
 var index = function(request,router){//arguments
@@ -21,7 +22,7 @@ var index = function(request,router){//arguments
 };
 
 var list = function(request,router){
-
+    //todo:add logic to bill manager
     queryFile('./server/db/queries/qf-full-list.sql').then(function(data){
 
         return queryFile(data,'query');
@@ -33,19 +34,18 @@ var list = function(request,router){
         ///console.log('Put Error message here',fail);
     });
 };
-var listWithKey = function(request,router){
+var listWithKey = function(request,router){//todo:add logic to bill manager
     var itemId = this.controllerActionKey;
     if(request.body.amountPaid){
         queryFile('./server/db/queries/qf-update-item.sql').then(function(data){
             data = data.replace('[itemId]',itemId);
             data = data.replace('[amountPaid]',request.body.amountPaid);
             data = data.replace('[confirmation]',(request.body.confirmation?request.body.confirmation:''));
-
+            billManager.autoAddBillsForCreditors();
             return queryFile(data,'query');
         },function(fail){
             console.log('getting file to update bill failed',fail);
         }).then(function(data){
-            console.log("the data",data)
             if(data){
                //once query passed  -  router.response.send({success:true});
                return queryFile('./server/db/queries/qf-update-creditor.sql').then(function(fdata){
