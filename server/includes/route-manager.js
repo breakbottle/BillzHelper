@@ -27,6 +27,7 @@ var routeManager = function(){
         return vars;
     };
     routerManager.requestFilter = function(req,actionObject,actionName){
+        //todo: add authorization filters
         switch(req.method){
             //filter other methods, put,delete,options
             case 'POST':

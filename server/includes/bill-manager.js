@@ -40,7 +40,7 @@ var updateBill = function(billItem){
 var processAutoBills = function(){
     var result = q.defer();
     qfQuery('qf-process-auto-bills',function(error,data){
-        if(data){
+        if(data){console.log("that data---------->",data);
             for(var i = 0; i< data.length; i++){
                 var bItm = new billItem(data[i].itemID,data[i].creditorID,"yes",new Date(),null,data[i].min_payments);
                 updateBill(bItm).then(function(res){
@@ -127,7 +127,8 @@ var getCreditorsToAutoProcess = function(){
 var autoAddBillsForCreditors = function(){
     processAutoBills();
     managePayPeriod();
-    getCretitorsToAutoProcess().then(function(creditors){
+
+    getCreditorsToAutoProcess().then(function(creditors){
         for(var i = 0; i< creditors.length; i++){
             var calcDueDate = (creditors[i].dueDate)?new Date(creditors[i].dueDate):((creditors[i].StartDate)?new Date(creditors[i].StartDate):new Date())
 
