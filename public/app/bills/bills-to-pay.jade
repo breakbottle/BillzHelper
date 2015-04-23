@@ -1,7 +1,7 @@
 //Created by Clint Small Cain on 4/14/2015.
 
-div(ng-show="isLoading") Loading....
-table.table.table-striped.table-hover(id="bills-to-pay")
+div(ng-show="isLoading",ng-include="'/partials/tools/spinner'")
+table.table.table-striped.table-hover(id="bills-to-pay",ng-cloak)
     thead
         tr(class="info")
             th(style="width:50%;min-width:300px") Creditor

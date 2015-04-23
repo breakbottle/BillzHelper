@@ -5,8 +5,8 @@ block main-content
     section.content.well(ng-controller="bilSignupCtrl",ng-hide="identity.isAuthenticated()")
         h1 Sign Up
         h2 Create an account
-
-        div
+        div(ng-show="isLoading",ng-include="'/partials/tools/spinner'")
+        div(ng-hide="isLoading")
             form.form-group(name="bilSignupFom",novalidate="true")
                 .form-group
                     label Email
