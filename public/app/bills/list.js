@@ -4,11 +4,12 @@
  * Time: 3:36 PM
  * Description:
  */
-application.controller('bilListCtrl',function($scope,$sce,RequireJs,$http,bilIdentity,bilLocation,$filter){
+application.controller('bilListCtrl',function($scope,$sce,RequireJs,$http,bilIdentity,bilLocation,$filter){//return;
     if(bilLocation.noAuth()) return; //option to redirect, or todo: param to call directive logout splash page
     bilLocation.setLocation("/list/");
     $scope.bills = [];
     $scope.isLoading = true;
+    $scope.identity = bilIdentity;
     $http.post('/bills/list',{}).then(function(response){
         if(response.data){
             $scope.bills = response.data.bills;

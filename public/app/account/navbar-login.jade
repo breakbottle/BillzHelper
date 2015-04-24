@@ -1,6 +1,8 @@
 //Created by Clint Small Cain on 3/22/2015.
+
 .navbar-right(ng-controller="bilLoginCtrl")
-    form.navbar-form(ng-hide="identity.isAuthenticated()",name="bilLoginForm",novalidate="false")
+    div(ng-show="isLoading",ng-include="'/partials/tools/spinner'")
+    form.navbar-form(ng-hide="identity.isAuthenticated() || isLoading",name="bilLoginForm",novalidate="false")
         .form-group
             input.form-control(required="true",placeholder="Username", ng-model="username", name="username",tabindex="1")
             div

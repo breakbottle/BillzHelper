@@ -4,7 +4,7 @@
  * Time: 8:41 AM
  * Description:
  */
-application.factory('RequireJs',function($q){
+application.factory('RequireJs',function($q,$rootElement){
     //requires services and factories files when needed.
     return function(requireList,returnInstance){
         require.config({
@@ -12,6 +12,7 @@ application.factory('RequireJs',function($q){
             paths: {
 
                 'bilAlerts':['app/common/alerts'],
+                'bilLocation':['app/common/mspa-location'],
                 'test':['app/common/test']
                 /*
                  Example:
@@ -25,10 +26,13 @@ application.factory('RequireJs',function($q){
         });
         var promise = $q.defer();
         require(requireList,function(d){
-            var inject =  angular.injector([application.name]);
-            var resolved = {};
+            var resolved  = {};
             if(angular.isArray(requireList)){
                 angular.forEach(requireList,function(value,key){
+                    var inject = angular.element($rootElement).injector();//use init options
+                    if(!inject.has(value)){
+                        inject = angular.injector([application.name]);//reload app for injected options
+                    }
                     var re = inject.get(value);
                     if(angular.isFunction(re) && !returnInstance){
                         resolved[value] = re.call();

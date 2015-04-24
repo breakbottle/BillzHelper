@@ -4,7 +4,7 @@
  * Time: 5:47 PM
  * Description:
  */
-application.controller('bilLoginCtrl',function($scope,bilAuth,bilIdentity,bilLocation,$location,RequireJs){
+application.controller('bilLoginCtrl',function($scope,bilAuth,bilIdentity,bilLocation,RequireJs){
     $scope.identity = bilIdentity;
     var resetUser = function(){
         $scope.username = "";
@@ -25,7 +25,7 @@ application.controller('bilLoginCtrl',function($scope,bilAuth,bilIdentity,bilLoc
                     }
                 });
             } else {
-                resolver.bilAlerts.error("Please enter your username and password")
+                resolver.bilAlerts.error("Please enter your username and password");
                 $scope.isLoading = false;
             }
         }.bind(this));

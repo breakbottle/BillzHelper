@@ -3,7 +3,10 @@
 extends ../shared/layout
 block main-content
 
-    section.content.well(ng-controller="bilListCtrl",ng-hide="identity.isAuthenticated()")
-        h1 Bills To Pay
-        h2 View all your bills to be paid
-        div(ui-view)
+    section.content.well.ng-cloak(ng-controller="bilListCtrl",ng-show="identity.isAuthenticated()")
+        div.padding-medium(ng-show="isLoading")
+            div(ng-include="'/partials/tools/spinner'")
+        div(ng-hide="isLoading")
+            h1 Bills To Pay
+            h2 View all your bills to be paid
+            div(ui-view)

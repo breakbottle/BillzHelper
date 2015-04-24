@@ -28,7 +28,7 @@ application.factory('bilLocation',function($http,$location,bilDebug,bilIdentity)
     };
     var noAuth = function(){
         if(!bilIdentity.isAuthenticated()){
-            path("/",true);
+            //path("/",true);
             return true;
         }
         return false;
