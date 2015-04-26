@@ -40,7 +40,6 @@
     "node-mocks-http": "^1.2.7",
     "node-monkey": "^0.2.15",
     "promise": "^7.0.0",
-    "requirejs": "^2.1.16",
     "should": "^5.2.0"
   }
 }

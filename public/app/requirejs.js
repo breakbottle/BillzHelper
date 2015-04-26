@@ -7,26 +7,9 @@
 application.factory('RequireJs',function($q,$rootElement,$injector){
     //requires services and factories files when needed.
     return function(requireList,returnInstance){
-        require.config({
-            baseUrl: '',
-            paths: {
 
-                'bilAlerts':['app/common/alerts'],
-                'bilLocation':['app/common/mspa-location'],
-                'bilDebug':['app/common/debug'],
-                'test':['app/common/test']
-                /*
-                 Example:
-                 Usage - cal factory name, give list of variables names, then list of services and factories to inject
-                 RequireJs(['bilDebug','test']).then(function(k){
-                 console.log("what is k", )
-                 })
-                 */
-
-            }
-        });
         var promise = $q.defer();
-        require(requireList,function(d){
+        require(requireList,function(d){//note: do not upgrade to v2.1.17 not resolving both items in list..need to verify this works
             var resolved  = {};
             if(angular.isArray(requireList)){
                 var loadedAlready = false;

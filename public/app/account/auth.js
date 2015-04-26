@@ -10,7 +10,7 @@ application.factory('bilAuth',function(RequireJs,$http,bilIdentity,$q,bilUser){
             var deferred = $q.defer();
             var data = {username:username,password:password};
             $http.post('/account/login',data).then(function(response){
-                    RequireJs(['bilDebug'],true).then(function(resolver) {
+                    RequireJs(['bilAlerts','bilDebug'],true).then(function(resolver) {
                         if (response.data.success) {
                             var user = new bilUser();
                             angular.extend(user, response.data.user);

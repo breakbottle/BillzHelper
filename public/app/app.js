@@ -30,4 +30,21 @@ application.config(function($stateProvider,$urlRouterProvider){
     })
 })
 
+require.config({
+    baseUrl: '',
+    paths: {
 
+        'bilAlerts':['app/common/alerts'],
+        'bilLocation':['app/common/mspa-location'],
+        'bilDebug':['app/common/debug'],
+        'test':['app/common/test']
+        /*
+         Example:
+         Usage - cal factory name, give list of variables names, then list of services and factories to inject
+         RequireJs(['bilDebug','test']).then(function(k){
+         console.log("what is k", )
+         })
+         */
+
+    }
+});
