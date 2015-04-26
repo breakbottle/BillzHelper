@@ -4,7 +4,7 @@
  * Time: 4:08 PM
  * Description:
  */
-application.controller('bilSignupCtrl',function(bilDebug,$scope,bilIdentity,RequireJs,bilAuth,bilLocation){
+application.controller('bilSignupCtrl',function($scope,bilIdentity,RequireJs,bilAuth,bilLocation){
     if(bilIdentity.isAuthenticated()){ 
         bilLocation.path("/",true);
         return;
@@ -16,7 +16,7 @@ application.controller('bilSignupCtrl',function(bilDebug,$scope,bilIdentity,Requ
     $scope.userEmail = "";
     $scope.create = function(userEmail,userName,userPassword){
         $scope.isLoading = true;
-        RequireJs(['bilAlerts']).then(function(resolver) {
+        RequireJs(['bilDebug','bilAlerts']).then(function(resolver) {
             if (this.bilSignupFom.$valid) {
 
                 bilAuth.signUpUser(userEmail, userName, userPassword).then(function (success) {

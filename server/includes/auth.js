@@ -21,19 +21,25 @@ passport.use(new localStrategy(
             console.log("Select Email Error:",err);
             console.log("user with that email",dbUser);
             //console.log('the hash',hash,dbUser.length);
-            if(dbUser.length >= 1){
-                var person = dbUser[0];
-                hash = utils.hashPassword(person.userSalt,pass);
-                if(person.userPassword == hash){
-                    var bilUser = new bilUserObject(user);
-                    bilUser.userId = person.userId;
-                    return done(null,bilUser);
-                }  else {
+            if(dbUser){
+                if(dbUser.length >= 1){
+                    var person = dbUser[0];
+                    hash = utils.hashPassword(person.userSalt,pass);
+                    if(person.userPassword == hash){
+                        var bilUser = new bilUserObject(user);
+                        bilUser.userId = person.userId;
+                        return done(null,bilUser);
+                    }  else {
+                        return done(null,false);
+                    }
+                } else {
                     return done(null,false);
                 }
             } else {
+                //query result fail or something
                 return done(null,false);
             }
+
         });
     }
 ));

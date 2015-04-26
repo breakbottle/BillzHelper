@@ -4,7 +4,7 @@
  * Time: 12:35 PM
  * Description:
  */
-application.factory('bilLocation',function($http,$location,bilDebug,bilIdentity){
+application.factory('bilLocation',function($location,bilIdentity){
     var path =  function(path,refreshPath){
 
         if(refreshPath){
@@ -28,7 +28,7 @@ application.factory('bilLocation',function($http,$location,bilDebug,bilIdentity)
     };
     var noAuth = function(){
         if(!bilIdentity.isAuthenticated()){
-            //path("/",true);
+            path("/",true);
             return true;
         }
         return false;

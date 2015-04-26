@@ -13,7 +13,7 @@ application.controller('bilLoginCtrl',function($scope,bilAuth,bilIdentity,bilLoc
     resetUser();
     $scope.login = function(username,password){
         $scope.isLoading = true;
-        RequireJs(['bilAlerts']).then(function(resolver) {
+        RequireJs(['bilAlerts','bilDebug']).then(function(resolver) {
             if (this.bilLoginForm.$valid) {
                 bilAuth.authenticatedUser(username, password).then(function (success) {
                     $scope.isLoading = false;
