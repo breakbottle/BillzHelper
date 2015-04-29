@@ -8,17 +8,6 @@ A tool that helps you keep track of your bills.
 I have just started code is horrible, need to add comments and remove my console log.:)
 MEAN Stack and all supporting front end tools. Jade, Stylus, Nodejs, Angularjs, Karma etc..
 
-# Requirement to install
-create a file in db/mysql/mysql.js
-
-    var connection = {
-        host     : 'host',
-        user     : 'root',
-        password : 'password',
-        database : 'database'
-    };
-    module.exports = connection;
-
 
 # Hope & Features
 By sharing the project I hope to get feedback on coding styles, ideas and suggestions. I am open if anyone is interested to help with project.

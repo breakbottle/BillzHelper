@@ -13,9 +13,10 @@ var express = require('express'),
     session = require('express-session'),
 
     configs = require('./server/includes/configs'),
-    route = require('./server/includes/route-manager');
-var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
-if(env != 'development'){
+    route = require('./server/includes/route-manager')
+    applicationConfig = require('./server/includes/app-configs');
+
+if(applicationConfig.environment == 'development'){
     var nomo = require('node-monkey').start();//for client browser debugging
 }
 

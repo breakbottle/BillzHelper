@@ -4,7 +4,7 @@
  * Time: 9:30 PM
  * Description:
  */
-var mysql = require('./mysql');
+var mysql = require('../includes/app-configs').dbConnection.data.mysql;
 var orm = require('orm');
 var Promise = require('promise');
 var fs = require('fs');
