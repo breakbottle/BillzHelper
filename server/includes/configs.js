@@ -6,7 +6,6 @@
  */
 var controllerPath = "../controllers/";
 var extend = require('util')._extend;
-var mysql = require('../db/mysql');
 var mongodb = require('../db/mongo');
 var routeItem = require('../models/route-item');
 
@@ -25,7 +24,6 @@ var configs = {
     defaultController:"home",
     defaultControllerView:"index",
     globals:{
-        //mysql:mysql//,
         //mongodb:mongodb
     },
     clientGlobals:{
